@@ -9,6 +9,7 @@ services:
       - db
 
   db:
+    platform: linux/amd64
     image: postgis/postgis:17-3.5
     environment:
       POSTGRES_USER: postgres
@@ -19,6 +20,7 @@ services:
       - ./db/init.sql:/docker-entrypoint-initdb.d/init.sql
 
   pgadmin:
+    platform: linux/amd64
     image: dpage/pgadmin4
     environment:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
@@ -31,6 +33,7 @@ services:
       - db
 
   geoserver:
+    platform: linux/amd64
     image: kartoza/geoserver
     environment:
       GEOSERVER_ADMIN_USER: admin
