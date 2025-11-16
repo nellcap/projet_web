@@ -6,6 +6,8 @@
     <title>Home</title>
 </head>
 <body>
-    <p>Hello World</p>
+    <p>Bonjour à tous !</p>
+    <p>Les règles de notre jeu.</p>
+    <p>Comment t'appelle-tu ?</p>
 </body>
 </html>
