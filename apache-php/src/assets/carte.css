@@ -1,0 +1,28 @@
+body {
+  display: grid;                     
+  grid-template-columns: 1000px 1fr;   
+    }
+
+#map {
+    grid-column: 1;
+    width: 100%;
+    height: 500px;
+}
+
+#inventaire {
+    grid-column: 2;
+}
+
+.item-icone {
+    width: 20px;
+    height: 20px;
+    object-fit: contain; /* Pour conserver les proportions */
+    margin-right: 10px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
