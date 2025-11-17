@@ -8,11 +8,8 @@ function addToInventory(itemName, icone) {
     updateInventoryDisplay();
 };
 
-function removeFromInventory(itemName) {    
-    inventory = inventory.filter(function(item) {
-        return item.name !== itemName;
-    });
-    
+function removeFromInventory(itemName, icone) {    
+    inventory = inventory.filter(item => !(item.name === itemName && item.icone === icone));
     updateInventoryDisplay();
 }
 
@@ -71,6 +68,7 @@ function debloquer_objet(objet) {
     inventory.forEach(function(item) {
         if (objet === item.name) {
             fromagerie.bindPopup(message4).openPopup();
+            removeFromInventory("lait","data/lait.jpg")
             fromagerie.on('click', function () {
                 map.removeLayer(fromagerie);
                 addToInventory('beurre', 'data/beurre.jpg');
