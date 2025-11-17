@@ -5,7 +5,10 @@ declare(strict_types=1);
 require_once 'flight/Flight.php';
 
 Flight::route('/', function() {
-    Flight::render('accueil');
+    
+
+
+    Flight::render('menu');
 });
 
 Flight::route('/test-db', function () {
