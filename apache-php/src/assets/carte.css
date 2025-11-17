@@ -12,3 +12,17 @@ body {
 #inventaire {
     grid-column: 2;
 }
+
+.item-icone {
+    width: 20px;
+    height: 20px;
+    object-fit: contain; /* Pour conserver les proportions */
+    margin-right: 10px;
+}
+
+.item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
