@@ -16,6 +16,9 @@
             <div class="empty-inventory">Votre inventaire est vide</div>
         </div>
     </div>
+    <div id="chronometre-container">
+      <div id="chronometre">00:00:00</div>
+    </div>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

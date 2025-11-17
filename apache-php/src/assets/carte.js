@@ -1,4 +1,43 @@
 var inventory = [];
+var chronometre = {
+    secondes: 0,
+    minutes: 0,
+    heures: 0,
+    intervalId: null,
+    estEnCours: false
+};
+
+function demarrerChronometre() {
+    if (!chronometre.estEnCours) {
+        chronometre.estEnCours = true;
+        chronometre.intervalId = setInterval(function() {
+            chronometre.secondes++;
+            
+            if (chronometre.secondes >= 60) {
+                chronometre.secondes = 0;
+                chronometre.minutes++;
+            }
+            
+            if (chronometre.minutes >= 60) {
+                chronometre.minutes = 0;
+                chronometre.heures++;
+            }
+            
+            afficherChronometre();
+        }, 1000); // Met à jour toutes les secondes
+    }
+};
+
+function afficherChronometre() {
+    var h = chronometre.heures < 10 ? '0' + chronometre.heures : chronometre.heures;
+    var m = chronometre.minutes < 10 ? '0' + chronometre.minutes : chronometre.minutes;
+    var s = chronometre.secondes < 10 ? '0' + chronometre.secondes : chronometre.secondes;
+    
+    var affichage = h + ':' + m + ':' + s;
+    document.getElementById('chronometre').textContent = affichage;
+};
+
+demarrerChronometre();
 
 function addToInventory(itemName, icone) {
     console.log('addToInventory appelé pour:', itemName);
