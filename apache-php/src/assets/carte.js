@@ -8,6 +8,13 @@ function addToInventory(itemName, icone) {
     updateInventoryDisplay();
 };
 
+function removeFromInventory(itemName) {    
+    inventory = inventory.filter(function(item) {
+        return item.name !== itemName;
+    });
+    
+    updateInventoryDisplay();
+}
 
 function updateInventoryDisplay() {
     var container = document.getElementById('inventory-items');
