@@ -44,13 +44,53 @@ var fermeIcon = L.icon({
 var fermeviltain = L.marker([48.754300819108934, 2.1585445744449885], { icon: fermeIcon, draggable: true });
 var message2 = "Super, nous avons du lait. Il faut maintenant que nous fassions notre propre beurre.";
 
-
+// let ghost = document.getElementById("ghost");
+let inventaire = document.getElementById("inventaire");
+console.log(inventaire)
 var draggedItem = null
-
+let dragging = false
 
 var targetLat = 48.754300819108934;
 var targetLng = 2.1585445744449885;
 var tolerance = 0.005;
+
+function createDraggableItem(icon, name) {
+    var itemDiv = document.createElement('div');
+            itemDiv.className = 'map-item';
+            itemDiv.innerHTML = icon;
+            itemDiv.draggable = true;
+            itemDiv.name = name;
+            itemDiv.icon = icon;
+            
+            itemDiv.addEventListener('dragstart', function(e) {
+                draggedItem = { name: name, icon: icon, element: itemDiv };
+                e.dataTransfer.effectAllowed = 'move';
+            });
+            
+            return itemDiv;
+};
+
+function verif_zone() {
+    let zone = document.getElementById("inventaire");
+    let dedans = false
+
+    document.addEventListener("mousemove", function(e) {
+    let rect = zone.getBoundingClientRect();
+
+    let inside =
+        e.clientX >= rect.left &&
+        e.clientX <= rect.right &&
+        e.clientY >= rect.top &&
+        e.clientY <= rect.bottom;
+
+    if (inside) {
+        dedans = true ;
+    } else {
+        dedans = false;
+    }
+    });
+    return dedans
+};
 
 map.on('zoomend moveend', function () {
     var zoom = map.getZoom();
@@ -67,11 +107,34 @@ map.on('zoomend moveend', function () {
         fermeviltain.on('dragstart', function(e) {
             draggedItem = fermeviltain;  // On stocke le marqueur
             console.log("Marqueur en cours de déplacement :", draggedItem);
+            if (verif_zone() === true) {
+                console.log("dans la zone")
+                var lait = createDraggableItem('data/lait.jpg', lait);
+                lait.style.left = e.pageX + "px";
+                lait.style.top  = e.pageY + "px";
+                document.body.appendChild(lait);
+            }
         });
 
-        fermeviltain.on('dragend', function () {
-            addToInventory(fermeviltain);
+        // 🔹 Quand on arrête de drag le marker
+        fermeviltain.on('dragend', function(e) {
+            dragging = false;
+           // ghost.style.display = "none";
+            document.removeEventListener("mousemove", followMouse);
+
+            // vérifier si on lâche dans l'inventaire
+            let rect = inventaire.getBoundingClientRect();
+
+            let inside =
+                e.originalEvent.clientX >= rect.left &&
+                e.originalEvent.clientX <= rect.right &&
+                e.originalEvent.clientX >= rect.left &&
+                e.originalEvent.clientY >= rect.top &&
+                e.originalEvent.clientY <= rect.bottom;
+
+            if (inside) {
+                addToInventory();
+            }
         });
     }
 });
-
