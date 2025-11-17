@@ -10,6 +10,13 @@
   <body>
 
     <div id="map" ></div>
+    <div id="inventaire">
+        <h2>Inventaire</h2>
+        <div id="inventory-items">
+            <div class="empty-inventory">Votre inventaire est vide</div>
+        </div>
+    </div>
+
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script src="assets/carte.js"></script>

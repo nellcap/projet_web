@@ -1,4 +1,27 @@
-var map = L.map('map').setView([48.22118448647317, -0.6951406610558623], 15);
+var inventory = [];
+var draggedItem = null;
+
+function addToInventory(itemName) {
+    inventory.push({ name: itemName});
+        updateInventoryDisplay();
+        }
+
+function updateInventoryDisplay() {
+    var container = document.getElementById('inventory-items');
+        if (inventory.length === 0) {
+            container.innerHTML = '<div class="empty-inventory">Votre inventaire est vide</div>';
+        } else {
+            container.innerHTML = '';
+            inventory.forEach(function(item) {
+                var itemDiv = document.createElement('div');
+                itemDiv.className = 'item';
+                itemDiv.innerHTML = '</span><span class="item-name">' + item.name + '</span>';
+                container.appendChild(itemDiv);
+            });
+        }
+    }
+
+var map = L.map('map').setView([48.754300819108934, 2.1585445744449885], 15);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -9,24 +32,20 @@ var message1 = "Merci beaucoup d'avoir accepté de nous aider. Je commençais à
 elysee.addTo(map);
 elysee.bindPopup(message1).openPopup();
 
-var fermeviltain = L.marker([48.754300819108934, 2.1585445744449885]);
+
+
+var fermeIcon = L.icon({
+    iconUrl: 'data/lait.jpg',  // ton image
+    iconSize: [48, 48],           // taille de l’image (à ajuster)
+    iconAnchor: [24, 48],         // point de l’image placé exactement sur la position
+    popupAnchor: [0, -48]         // optionnel : position du popup
+});
+
+var fermeviltain = L.marker([48.754300819108934, 2.1585445744449885], { icon: fermeIcon, draggable: true });
 var message2 = "Super, nous avons du lait. Il faut maintenant que nous fassions notre propre beurre.";
 
-var fromagerie = L.marker([48.22118448647317, -0.6951406610558623]);
-fromagerie.addTo(map);
-var message4 = "Super, nous avons du beurre."
-var message5 = "<div> <p>Nous avons besoin d'un code : </p><input type='text' id='reponse' placeholder='Votre texte...'><button onclick='verif_reponse(reponse)'>Valider</button></div>";
-fromagerie.bindPopup(message5).openPopup(); 
-function verif_reponse(reponse) {
-    var answer = reponse.value;
-    if (answer === '1312') {
-        fromagerie.bindPopup(message4).openPopup(); 
-    } else {
-        alert('Essayez encore...');
-    }
-}
 
-var message3 = "Nous avons besoin d'un code."
+var draggedItem = null
 
 
 var targetLat = 48.754300819108934;
@@ -44,7 +63,15 @@ map.on('zoomend moveend', function () {
     if (zoom >= 10 && inTarget) {
         fermeviltain.addTo(map);
         fermeviltain.bindPopup(message2).openPopup();
+        // Début du drag
+        fermeviltain.on('dragstart', function(e) {
+            draggedItem = fermeviltain;  // On stocke le marqueur
+            console.log("Marqueur en cours de déplacement :", draggedItem);
+        });
+
+        fermeviltain.on('dragend', function () {
+            addToInventory(fermeviltain);
+        });
     }
 });
-
 
