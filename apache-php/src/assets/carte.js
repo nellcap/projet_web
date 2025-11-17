@@ -8,6 +8,7 @@ function addToInventory(itemName, icone) {
     updateInventoryDisplay();
 };
 
+
 function updateInventoryDisplay() {
     var container = document.getElementById('inventory-items');
     if (inventory.length === 0) {
@@ -35,11 +36,19 @@ var message1 = "Merci beaucoup d'avoir accepté de nous aider. Je commençais à
 elysee.addTo(map);
 elysee.bindPopup(message1).openPopup();
 
-var fromagerie = L.marker([48.22118448647317, -0.6951406610558623]);
+var beurreIcon = L.icon({
+    iconUrl: 'data/beurre.jpg',  // ton image
+    iconSize: [48, 48],           // taille de l’image (à ajuster)
+    iconAnchor: [24, 48],         // point de l’image placé exactement sur la position
+    popupAnchor: [0, -48]         // optionnel : position du popup
+});
+
+var fromagerie = L.marker([48.22118448647317, -0.6951406610558623], { icon: beurreIcon});
 fromagerie.addTo(map);
 var message4 = "Super, nous avons du beurre."
 var message5 = "<div> <p>Nous avons besoin d'un code : </p><input type='text' id='reponse' placeholder='Votre texte...'><button onclick='verif_reponse(reponse)'>Valider</button></div>";
-fromagerie.bindPopup(message5).openPopup();
+var message3 = "<div> <p>Nous avons besoin de lait.<button onclick='debloquer_objet(\"lait\")'>Donner du lait</button></div>"
+fromagerie.bindPopup(message3).openPopup();
 
 
 function verif_reponse(reponse) {
@@ -49,10 +58,23 @@ function verif_reponse(reponse) {
     } else {
         alert('Essayez encore...');
     }
-}
+};
 
-var message3 = "Nous avons besoin d'un objet."
-
+function debloquer_objet(objet) {
+    inventory.forEach(function(item) {
+        if (objet === item.name) {
+            fromagerie.bindPopup(message4).openPopup();
+            fromagerie.on('click', function () {
+                map.removeLayer(fromagerie);
+                addToInventory('beurre', 'data/beurre.jpg');
+                ajout_inv = true
+            });
+        }
+    });
+    if (ajout_inv === false) {
+        alert("Vous n'avez pas de lait dans votre inventaire.");
+    }
+};
 
 var fermeIcon = L.icon({
     iconUrl: 'data/lait.jpg',  // ton image
