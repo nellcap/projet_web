@@ -19,13 +19,36 @@
         <p>
             Notre cher président Emmanuel Macron a terriblement envie de délicieux macarons. Malheuresement, son chef pâtissier est malade et ne peut pas lui concocter ces délicieuses confiseries.
         </p>
+        <p> Ton rôle est de chercher tous les ingrédients nécessaires à la préparation de macarons à la framboise.</p>
+        <ul>
+            <li>
+                Ton terrain de jeu sera la <b>France métropolitaine</b>.
+            </li>
+            <li>
+                Chaque objet trouvé te donnera un <b>indice</b> sur l'objet suivant à chercher sous forme de pop up texte. 
+            </li>
+            <li>
+                Tu peux stocker des objets dans ton <b>inventaire</b> en cliquant sur ceux-ci.
+            </li>
+            <li>
+                Certains objets nécessitent un <b>code</b> ou un <b>autre objet</b> que tu as récupéré antérieurement dans ton inventaire pour être dévérouillés.
+            </li>
+            <li>
+                Rends-toi dans la <b>Silicon Valley française</b> pour commencer l'aventure !
+            </li>
+        </ul>
 
     </div>
     <div class='classement'>
         <h3>
-            C'est pas une compétition mais un peu quand même...
+            Hall of fame
         </h3> 
     </div>
+    
 </div>
+<div class="boitebouton">
+    <button class="commencer" type="button"><b>C'est parti !</b></button>
+</div>
+
 </body>
 </html>
