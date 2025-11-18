@@ -6,6 +6,39 @@ var chronometre = {
     intervalId: null,
     estEnCours: false
 };
+var map = L.map('map').setView([48.754300819108934, 2.1585445744449885], 15);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+var elysee = L.marker([48.8708852, 2.3170585]);
+var message1 = "Merci beaucoup d'avoir accepté de nous aider. Je commençais à désespérer. Dépechez-vous le temps presse. Le premier ingrédient se trouve dans la silicon valley française.";
+elysee.addTo(map);
+elysee.bindPopup(message1).openPopup();
+
+// Créer la couche WMS de heatmap (invisible par défaut)
+var heatmapLayer = L.tileLayer.wms('http://localhost:8080/geoserver/projet_web/wms', {
+    layers: 'projet_nell_clara:heatmap', // Remplacez par le nom de votre layer
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.0',
+    attribution: 'GeoServer'
+});
+
+// Variable pour suivre l'état de la heatmap
+var heatmapVisible = false;
+
+// Fonction pour activer/désactiver la heatmap
+function toggleHeatmap() {
+    if (heatmapVisible) {
+        map.removeLayer(heatmapLayer);
+        heatmapVisible = false;
+    } else {
+        heatmapLayer.addTo(map);
+        heatmapVisible = true;
+    }
+}
 
 function demarrerChronometre() {
     if (!chronometre.estEnCours) {
