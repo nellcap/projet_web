@@ -1,4 +1,78 @@
 var inventory = [];
+var chronometre = {
+    secondes: 0,
+    minutes: 0,
+    heures: 0,
+    intervalId: null,
+    estEnCours: false
+};
+var map = L.map('map').setView([48.754300819108934, 2.1585445744449885], 15);
+
+L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+var elysee = L.marker([48.8708852, 2.3170585]);
+var message1 = "Merci beaucoup d'avoir accepté de nous aider. Je commençais à désespérer. Dépechez-vous le temps presse. Le premier ingrédient se trouve dans la silicon valley française.";
+elysee.addTo(map);
+elysee.bindPopup(message1).openPopup();
+
+// Créer la couche WMS de heatmap (invisible par défaut)
+var heatmapLayer = L.tileLayer.wms('http://localhost:8080/geoserver/projet_nell_clara/wms', {
+    layers: 'projet_nell_clara:heatmap', // Remplacez par le nom de votre layer
+    format: 'image/png',
+    transparent: true,
+    version: '1.1.1',
+    attribution: 'GeoServer',
+    crs: L.CRS.EPSG4326,
+    tiled: true
+});
+
+// Variable pour suivre l'état de la heatmap
+var heatmapVisible = false;
+
+// Fonction pour activer/désactiver la heatmap
+function toggleHeatmap() {
+    if (heatmapVisible) {
+        map.removeLayer(heatmapLayer);
+        heatmapVisible = false;
+    } else {
+        heatmapLayer.addTo(map);
+        heatmapVisible = true;
+    }
+}
+
+function demarrerChronometre() {
+    if (!chronometre.estEnCours) {
+        chronometre.estEnCours = true;
+        chronometre.intervalId = setInterval(function() {
+            chronometre.secondes++;
+            
+            if (chronometre.secondes >= 60) {
+                chronometre.secondes = 0;
+                chronometre.minutes++;
+            }
+            
+            if (chronometre.minutes >= 60) {
+                chronometre.minutes = 0;
+                chronometre.heures++;
+            }
+            
+            afficherChronometre();
+        }, 1000); // Met à jour toutes les secondes
+    }
+};
+
+function afficherChronometre() {
+    var h = chronometre.heures < 10 ? '0' + chronometre.heures : chronometre.heures;
+    var m = chronometre.minutes < 10 ? '0' + chronometre.minutes : chronometre.minutes;
+    var s = chronometre.secondes < 10 ? '0' + chronometre.secondes : chronometre.secondes;
+    
+    var affichage = h + ':' + m + ':' + s;
+    document.getElementById('chronometre').textContent = affichage;
+};
+
+demarrerChronometre();
 
 function addToInventory(itemName, icone) {
     console.log('addToInventory appelé pour:', itemName);
@@ -8,11 +82,8 @@ function addToInventory(itemName, icone) {
     updateInventoryDisplay();
 };
 
-function removeFromInventory(itemName) {    
-    inventory = inventory.filter(function(item) {
-        return item.name !== itemName;
-    });
-    
+function removeFromInventory(itemName, icone) {    
+    inventory = inventory.filter(item => !(item.name === itemName && item.icone === icone));
     updateInventoryDisplay();
 }
 
@@ -32,7 +103,7 @@ function updateInventoryDisplay() {
     }
 };
 
-var map = L.map('map').setView([48.754300819108934, 2.1585445744449885], 15);
+//var map = L.map('map').setView([48.754300819108934, 2.1585445744449885], 15);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -71,6 +142,7 @@ function debloquer_objet(objet) {
     inventory.forEach(function(item) {
         if (objet === item.name) {
             fromagerie.bindPopup(message4).openPopup();
+            removeFromInventory("lait","data/lait.jpg")
             fromagerie.on('click', function () {
                 map.removeLayer(fromagerie);
                 addToInventory('beurre', 'data/beurre.jpg');
