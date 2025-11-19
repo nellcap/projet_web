@@ -47,8 +47,10 @@
     
 </div>
 <div class="boitebouton">
-    <button class="commencer" type="button"><b>C'est parti !</b></button>
+    <a href="/carte" class="commencer"><b>C'est parti !</b></a>
 </div>
 
+ 
+</div>
 </body>
 </html>
