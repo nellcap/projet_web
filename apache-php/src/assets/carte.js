@@ -18,12 +18,14 @@ elysee.addTo(map);
 elysee.bindPopup(message1).openPopup();
 
 // Créer la couche WMS de heatmap (invisible par défaut)
-var heatmapLayer = L.tileLayer.wms('http://localhost:8080/geoserver/projet_web/wms', {
+var heatmapLayer = L.tileLayer.wms('http://localhost:8080/geoserver/projet_nell_clara/wms', {
     layers: 'projet_nell_clara:heatmap', // Remplacez par le nom de votre layer
     format: 'image/png',
     transparent: true,
-    version: '1.1.0',
-    attribution: 'GeoServer'
+    version: '1.1.1',
+    attribution: 'GeoServer',
+    crs: L.CRS.EPSG4326,
+    tiled: true
 });
 
 // Variable pour suivre l'état de la heatmap
@@ -101,7 +103,7 @@ function updateInventoryDisplay() {
     }
 };
 
-var map = L.map('map').setView([48.754300819108934, 2.1585445744449885], 15);
+//var map = L.map('map').setView([48.754300819108934, 2.1585445744449885], 15);
 
 L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
