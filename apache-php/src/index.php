@@ -59,7 +59,7 @@ Flight::route('GET /api/objets', function () {
     // début de la carte (dans la requete sql c'est le WHERE depart = TRUE)
     if (!$id) {
 
-        $sql = "SELECT id, nom, ST_X(position) as long, ST_Y(position) as lat FROM objets WHERE depart = TRUE";
+        $sql = "SELECT id, nom, ST_X(position) as long, ST_Y(position) as lat, minZoomVisible, depart, typeObjet, code, messageDebut, messageFin, url_image FROM objets WHERE depart = TRUE";
 
         $requete = pg_query($link, $sql);
 

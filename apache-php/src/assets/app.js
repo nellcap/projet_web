@@ -12,7 +12,8 @@ Vue.createApp({
       chronometreAffichage: '00:00:00',
       etape: 0,
       recupererable: false,
-      map: null
+      map: null,
+      objets: []
     };
   },
 
@@ -24,6 +25,15 @@ Vue.createApp({
     }).addTo(this.map);
 
     this.demarrer_chronometre();
+
+    fetch("api/objets")
+      .then(r => r.json())
+      .then(objets => {
+      console.log(objets);
+      this.objets = objets;
+      this.creation_pop_up(this.objets);
+      });
+
   },
 
   methods: {
@@ -89,42 +99,46 @@ Vue.createApp({
 
     // Gestion pop-up
 
-    creation_pop_up (chemin_image,geom) {
-      var Image = L.icon({
-        iconUrl: chemin_image,
-        iconSize: [48, 48],  
-      });
-      return pop_up = L.marker(geom, { icon: Image});
+    creation_pop_up (objets) {
+      for (let obj of objets) {
+        var Image = L.icon({
+          iconUrl: obj.url_image,
+          iconSize: [48, 48],  
+        });
+        var pop_up = L.marker([parseFloat(obj.lat),parseFloat(obj.long)], { icon: Image});
+        pop_up.addTo(this.map)
+      }
     },
 
-    apparition_pop_up(pop_up,geom, message1) {
+    apparition_pop_up(pop_up,objet) {
       var ajout_inv = false
       map.on('zoomend moveend', function () {
         var zoom = map.getZoom();
         var centre = map.getCenter();
-        var coordonnees = geom;
+        var lat = objet.lat;
+        var lgn = objet.long
         var tolerance = 0.01;
         
 
-        var inTarget = Math.abs(centre.lat - coordonnees.lat) <= tolerance &&
-                    Math.abs(centre.lng - coordonnees.lng) <= tolerance;
+        var inTarget = Math.abs(centre.lat - lat) <= tolerance &&
+                    Math.abs(centre.lng - lng) <= tolerance;
 
-        if (zoom >= 10 && inTarget) {
+        if (zoom >= objet.minZoomVisible && inTarget) {
             if (ajout_inv == false) {
-              pop_up.addTo(map);
-              pop_up.bindPopup(message1).openPopup();
+              pop_up.addTo(this.map);
+              pop_up.bindPopup(objet.messageDebut).openPopup();
               ajout_inv = true;
             }
         }
       });
     },
 
-    verif_reponse(reponse) {
+    verif_reponse(pop_up,reponse,objet) {
       var answer = reponse.value;
-      if (answer === '1312') {
-        fromagerie.bindPopup(message).openPopup(); 
-        var recupererable = true
-        return recupererable
+      if (answer === objet.code) {
+        pop_up.bindPopup(messageFin).openPopup(); 
+        objet.recupererable = true
+        return objet.recupererable
       } else {
         alert('Essayez encore...');
       }
