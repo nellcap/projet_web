@@ -1,3 +1,17 @@
+fetch("api/objets")
+  .then(r => r.json())
+  .then(objets => {
+    console.log(objets);
+  });
+
+  objets.forEach(obj => {
+  L.marker([obj.geom.lat, obj.geom.lng])
+    .addTo(map)
+    .bindPopup(obj.nom);
+});
+
+
+
 var inventory = [];
 var chronometre = {
     secondes: 0,

@@ -6,33 +6,39 @@ Vue.createApp({
     minutes: 0,
     heures: 0,
     intervalId: null,
-    estEnCours: false
+    estEnCours: true
     };
     var etape = 0
     var recupererable = false
+    var map = null
   },
-  methods: {
-    initialisation_carte () {
-      var map = L.map('map').setView([48.8708852, 2.3170585], 15);
-      L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
-    },
 
+  mounted() {
+    this.map = L.map('map').setView([48.8708852, 2.3170585], 15);
+
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(this.map);
+
+    this.demarrer_chronometre();
+  },
+
+  methods: {
     // Gestion chronomètre
     demarrer_chronometre() {
-      if (!chronometre.estEnCours) {
-        chronometre.estEnCours = true;
-        chronometre.intervalId = setInterval(function() {
-          chronometre.secondes++;
+      if (!this.chronometre.estEnCours) {
+        this.chronometre.estEnCours = true;
+        this.chronometre.intervalId = setInterval(function() {
+          this.chronometre.secondes++;
             
-          if (chronometre.secondes >= 60) {
-            chronometre.secondes = 0;
-            chronometre.minutes++;
+          if (this.chronometre.secondes >= 60) {
+            this.chronometre.secondes = 0;
+            this.chronometre.minutes++;
           }
             
-          if (chronometre.minutes >= 60) {
-            chronometre.minutes = 0;
-            chronometre.heures++;
+          if (this.chronometre.minutes >= 60) {
+            this.chronometre.minutes = 0;
+            this.chronometre.heures++;
           }
             
           afficherChronometre();
@@ -146,4 +152,4 @@ Vue.createApp({
       })
     },
   }
-}).mount('#jeu');
+}).mount('#app');
