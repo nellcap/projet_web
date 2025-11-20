@@ -34,7 +34,7 @@
                 Certains objets nécessitent un <b>code</b> ou un <b>autre objet</b> que tu as récupéré antérieurement dans ton inventaire pour être dévérouillés.
             </li>
             <li>
-                Rends-toi dans la <b>Silicon Valley française</b> pour commencer l'aventure !
+                Rends-toi dans <b>la ferme </b> pour commencer l'aventure !
             </li>
         </ul>
 
