@@ -1,16 +1,19 @@
 Vue.createApp({
   data() {
-    var inventory = [];
-    var chronometre = {
-    secondes: 0,
-    minutes: 0,
-    heures: 0,
-    intervalId: null,
-    estEnCours: true
+    return {
+      inventory: [],
+      chronometre: {
+      secondes: 0,
+      minutes: 0,
+      heures: 0,
+      intervalId: null,
+      estEnCours: false
+      },
+      chronometreAffichage: '00:00:00',
+      etape: 0,
+      recupererable: false,
+      map: null
     };
-    var etape = 0
-    var recupererable = false
-    var map = null
   },
 
   mounted() {
@@ -28,7 +31,7 @@ Vue.createApp({
     demarrer_chronometre() {
       if (!this.chronometre.estEnCours) {
         this.chronometre.estEnCours = true;
-        this.chronometre.intervalId = setInterval(function() {
+        this.chronometre.intervalId = setInterval(() => {
           this.chronometre.secondes++;
             
           if (this.chronometre.secondes >= 60) {
@@ -41,18 +44,17 @@ Vue.createApp({
             this.chronometre.heures++;
           }
             
-          afficherChronometre();
+          this.afficher_chronometre();
         }, 1000); // Met à jour toutes les secondes
       }
     },
 
     afficher_chronometre() {
-      var h = chronometre.heures < 10 ? '0' + chronometre.heures : chronometre.heures;
-      var m = chronometre.minutes < 10 ? '0' + chronometre.minutes : chronometre.minutes;
-      var s = chronometre.secondes < 10 ? '0' + chronometre.secondes : chronometre.secondes;
+      var h = this.chronometre.heures < 10 ? '0' + this.chronometre.heures : this.chronometre.heures;
+      var m = this.chronometre.minutes < 10 ? '0' + this.chronometre.minutes : this.chronometre.minutes;
+      var s = this.chronometre.secondes < 10 ? '0' + this.chronometre.secondes : this.chronometre.secondes;
         
-      var affichage = h + ':' + m + ':' + s;
-      document.getElementById('chronometre').textContent = affichage;
+      this.chronometreAffichage = h + ':' + m + ':' + s;
     },
 
     stopper_chronometre() {},
