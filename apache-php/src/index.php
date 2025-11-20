@@ -21,11 +21,9 @@ if (!$connexion_db) {
     exit("errreur connexion bdd : " . pg_last_error());
 }
 
-
 session_start();
 
 Flight::set('connexion_db', $connexion_db);
-
 
 Flight::route('/', function() {
 
@@ -86,6 +84,38 @@ Flight::route('GET /api/objets', function () {
 
     // si id ne correspond à aucun objet dans la table, erreur 
     Flight::json($objet ?: ['error' => 'aucun objet ne corresond à cet id']);
+});
+
+Flight::route('POST /api/scores', function() {
+    $link = Flight::get('connexion_db');
+    
+    // récupère les infos données par l'utilisateur 
+    $donneesFin = Flight::request();
+    
+    // stocke le json du pseudo et du score de l'utilisateur (récupérés de via POST)
+    $pseudo = $donneesFin->data->pseudo ?? '';
+    $score = $donneesFin->data->score ?? 0;
+    
+    // si pas de pseudo rentré 
+    if (empty($pseudo)) {
+        Flight::json(['error' => 'Mets un pseudo stp'], 400);
+        return;
+    }
+    
+    // insère dans la table score les infos de l'utilisateur : pseudo et score
+    // on veut récupérer l'id associé à l'utilisateur ($1 et $2 sont équivalents à $pseudo et $score)
+    $sql = 'INSERT INTO scores (pseudo, score) VALUES ($1, $2) RETURNING id';
+    $requete = pg_query_params($link, $sql, [$pseudo, $score]);
+    
+
+    if ($requete) {
+        // si la requete marche bien 
+        // on sort le resultat de la requete sous forme de tableau json
+        $resultat = pg_fetch_all($requete, PGSQL_ASSOC);
+        Flight::json(['success' => true, 'id' => $resultat['id']]);
+    } else {
+        Flight::json(['error' => 'Erreur sauvegarde'], 500);
+    }
 });
 
 

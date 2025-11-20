@@ -8,9 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-
-<h1>Des macarons pour Macron</h1>
-<h2 class='soustitre'>Un escape game créé par Nell Capelle et Clara Bouvier</h2>
+<div id='app'>
+    <h1>Des macarons pour Macron</h1>
+    <h2 class='soustitre'>Un escape game créé par Nell Capelle et Clara Bouvier</h2>
 <div class='grosseboite'>
     <div class='regles'>
         <h3>
@@ -43,14 +43,30 @@
         <h3>
             Hall of fame
         </h3> 
+        <div v-if="loading" class="loading">
+            Chargement des scores...
+        </div>
+            
+        <div v-else>
+            <ul v-if="scores.length > 0" class="scores-list">
+                <li v-for="(score, index) in scores" :key="index" class="score-item">
+                    <span class="score-rank">#{{ index + 1 }}</span>
+                    <span class="score-pseudo">{{ score.pseudo }}</span>
+                    <span class="score-value">{{ score.score }} pts</span>
+                </li>
+            </ul>
+            <p v-else class="no-scores">Aucun score pour le moment. Sois le premier !</p>
+        </div>
     </div>
-    
+
 </div>
 <div class="boitebouton">
-    <a href="/carte" class="commencer"><b>C'est parti !</b></a>
+    <button @click="startGame">C'est parti !</button>
 </div>
 
  
 </div>
+</div>
+
 </body>
 </html>
