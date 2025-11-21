@@ -13,7 +13,8 @@ Vue.createApp({
       etape: 0,
       recupererable: false,
       map: null,
-      objets: []
+      objets: [],
+      pop_up:[]
     };
   },
 
@@ -73,22 +74,22 @@ Vue.createApp({
     // Gestion inventaire
 
     ajouter_inventaire(nom_objet, icone) {
-      inventory.push({ nom: nom_objet, image: icone});
+      this.inventory.push({ nom: nom_objet, image: icone});
       changer_affichage_inventaire();
     },
 
     retirer_inventaire(nom_objet, icone) {    
-      inventory = inventory.filter(item => !(item.nom === nom_objet && item.image === icone));
+      this.inventory = this.inventory.filter(item => !(item.nom === nom_objet && item.image === icone));
       changer_affichage_inventaire();
     },
 
     changer_affichage_inventaire() {
       var container = document.getElementById('inventory-items');
-      if (inventory.length === 0) {
+      if (this.inventory.length === 0) {
         container.innerHTML = '<div class="empty-inventory">Votre inventaire est vide</div>';
       } else {
         container.innerHTML = '';
-        inventory.forEach(function(item) {
+        this.inventory.forEach(function(item) {
           var itemDiv = document.createElement('div');
           itemDiv.className = 'item';
           itemDiv.innerHTML = '<img src="' + item.image + '" alt="' + item.nom + '" class="item-icone"><span class="item-name">' + item.nom + '</span>';
@@ -106,30 +107,41 @@ Vue.createApp({
           iconSize: [48, 48],  
         });
         var pop_up = L.marker([parseFloat(obj.lat),parseFloat(obj.long)], { icon: Image});
-        pop_up.addTo(this.map)
+        this.pop_up.push({ marqueur:pop_up, objet: obj,visible: false});
       }
+
+      this.apparition_pop_up();
+
     },
 
-    apparition_pop_up(pop_up,objet) {
-      var ajout_inv = false
-      map.on('zoomend moveend', function () {
-        var zoom = map.getZoom();
-        var centre = map.getCenter();
-        var lat = objet.lat;
-        var lgn = objet.long
-        var tolerance = 0.01;
-        
+    apparition_pop_up() {
+      this.map.on('zoomend moveend', () => {      
+        for (let pop of this.pop_up) {
+          var zoom = this.map.getZoom();
+          var centre = this.map.getCenter();
+          var lat =parseFloat(pop.objet.lat);
+          var lgn = parseFloat(pop.objet.long);
+          var tolerance = 0.05;
+          
 
-        var inTarget = Math.abs(centre.lat - lat) <= tolerance &&
-                    Math.abs(centre.lng - lng) <= tolerance;
+          var inTarget = Math.abs(centre.lat - lat) <= tolerance &&
+                      Math.abs(centre.lng - lgn) <= tolerance;
 
-        if (zoom >= objet.minZoomVisible && inTarget) {
-            if (ajout_inv == false) {
-              pop_up.addTo(this.map);
-              pop_up.bindPopup(objet.messageDebut).openPopup();
-              ajout_inv = true;
+          if (zoom >= parseFloat(pop.objet.minzoomvisible) && inTarget) {
+              if (pop.visible == false) {
+                pop.marqueur.addTo(this.map);
+                pop.marqueur.bindPopup(pop.objet.messagedebut).openPopup();
+                pop.visible = true;
+              }
+          }
+
+          else {
+            if (pop.visible) {
+              this.map.removeLayer(pop.marqueur);
+              pop.visible = false;
             }
-        }
+          }
+        };
       });
     },
 
