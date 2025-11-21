@@ -75,27 +75,10 @@ Vue.createApp({
 
     ajouter_inventaire(nom_objet, icone) {
       this.inventory.push({ nom: nom_objet, image: icone});
-      changer_affichage_inventaire();
     },
 
     retirer_inventaire(nom_objet, icone) {    
       this.inventory = this.inventory.filter(item => !(item.nom === nom_objet && item.image === icone));
-      changer_affichage_inventaire();
-    },
-
-    changer_affichage_inventaire() {
-      var container = document.getElementById('inventory-items');
-      if (this.inventory.length === 0) {
-        container.innerHTML = '<div class="empty-inventory">Votre inventaire est vide</div>';
-      } else {
-        container.innerHTML = '';
-        this.inventory.forEach(function(item) {
-          var itemDiv = document.createElement('div');
-          itemDiv.className = 'item';
-          itemDiv.innerHTML = '<img src="' + item.image + '" alt="' + item.nom + '" class="item-icone"><span class="item-name">' + item.nom + '</span>';
-          container.appendChild(itemDiv);
-        });
-      }
     },
 
     // Gestion pop-up
@@ -132,6 +115,7 @@ Vue.createApp({
                 pop.marqueur.addTo(this.map);
                 pop.marqueur.bindPopup(pop.objet.messagedebut).openPopup();
                 pop.visible = true;
+                this.ajouter_objet_inventaire(pop)
               }
           }
 
@@ -143,6 +127,16 @@ Vue.createApp({
           }
         };
       });
+    },
+
+    ajouter_objet_inventaire(pop) {
+      pop.marqueur.on('click', () => {
+          this.map.removeLayer(pop.marqueur);
+          pop.visible = false;
+          this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
+          console.log(this.inventory);
+
+      })
     },
 
     verif_reponse(pop_up,reponse,objet) {
@@ -168,16 +162,6 @@ Vue.createApp({
       if (ajout_inv === false) {
         alert("Vous n'avez pas de lait dans votre inventaire.");
       }
-    },
-
-    ajouter_objet_inventaire(objet) {
-      objet.on('click', function () {
-        if (recupererable === true) {
-          map.removeLayer(objet);
-          ajouter_inventaire(objet.nom, objet.chemin_image);
-          objet.ajout_inv = true
-        }
-      })
     },
   }
 }).mount('#app');

@@ -13,14 +13,14 @@ body {
     grid-column: 2;
 }
 
-.item-icone {
+.objet_image {
     width: 20px;
     height: 20px;
     object-fit: contain; /* Pour conserver les proportions */
     margin-right: 10px;
 }
 
-.item {
+.objet {
     display: flex;
     align-items: center;
     padding: 10px;

@@ -12,11 +12,19 @@
       <div id="map" ></div>
     
       <div id="inventaire">
-          <h2>Inventaire</h2>
-          <div id="inventory-items">
-              <div class="empty-inventory">Votre inventaire est vide</div>
+        <h2>Inventaire</h2>
+        <div v-if="inventory.length === 0" class="inventaire-vide">
+          Votre inventaire est vide
+        </div>
+
+        <div v-else>
+          <div v-for="objet in inventory" :key="objet.nom" class="objet">
+            <img :src="objet.image" :alt="objet.nom" class="objet-image">
+            <span class="objet-nom">{{ objet.nom }}</span>
           </div>
+        </div>
       </div>
+
       <div id="chronometre-container">
         <div id="chronometre">{{ chronometreAffichage }}</div>
       </div>
