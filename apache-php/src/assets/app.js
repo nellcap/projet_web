@@ -174,8 +174,6 @@ Vue.createApp({
               .then(r => r.json())
               .then(nouvelobjet => {
               this.objets.push(...nouvelobjet);
-              console.log("Nouvel objet :", nouvelobjet);
-              console.log("Objets actuels :", this.objets);
               this.creation_pop_up()
               });
             
@@ -200,12 +198,14 @@ Vue.createApp({
       this.inventory.forEach((item) => {
         if (pop.objet.code === item.nom) {
           pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-          this.retirer_inventaire(item.nom,item.Image)
-          this.map.removeLayer(pop.marqueur);
-          pop.visible = false;
-          this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
-          console.log(this.inventory)
+          this.retirer_inventaire(item.nom,item.image)
+          console.log('retirer de linventaire')
+          console.log(item.nom, item.Image)
           ajout_inv = true
+          console.log('inventaire après avoir retirer le lait')
+          console.log(this.inventory)
+          pop.objet.typeobjet = 'objet_recuperable'
+          this.ajouter_objet_inventaire(pop)
         }
       });
       if (ajout_inv === false) {
