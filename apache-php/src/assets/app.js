@@ -156,6 +156,7 @@ Vue.createApp({
     },
 
     ajouter_objet_inventaire(pop) {
+      pop.marqueur.off('click');
       pop.marqueur.on('click', () => {
         if (pop.objet.typeobjet == 'obj_bloque_par_code') {
           this.verif_reponse(pop)
