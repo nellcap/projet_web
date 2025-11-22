@@ -3,18 +3,28 @@ Vue.createApp({
     return {
       inventory: [],
       chronometre: {
-      secondes: 0,
-      minutes: 0,
-      heures: 0,
-      intervalId: null,
-      estEnCours: false
+        secondes: 0,
+        minutes: 0,
+        heures: 0,
+        intervalId: null,
+        estEnCours: false
       },
       chronometreAffichage: '00:00:00',
       etape: 0,
       recupererable: false,
       map: null,
       objets: [],
-      pop_up:[]
+      pop_up:[],
+      heatmapLayer: L.tileLayer.wms('http://localhost:8080/geoserver/projet_nell_clara/wms', {
+        layers: 'projet_nell_clara:heatmap',
+        format: 'image/png',
+        transparent: true,
+        version: '1.1.1',
+        attribution: 'GeoServer',
+        crs: L.CRS.EPSG4326,
+        tiled: true
+      }),
+      heatmapVisibl: false
     };
   },
 
@@ -70,7 +80,16 @@ Vue.createApp({
 
     stopper_chronometre() {},
 
-
+    // Gestion carte de chaleur
+    toggleHeatmap() {
+        if (this.heatmapVisible) {
+            this.map.removeLayer(this.heatmapLayer);
+            this.heatmapVisible = false;
+        } else {
+            this.heatmapLayer.addTo(this.map);
+            this.heatmapVisible = true;
+        }
+    },
     // Gestion inventaire
 
     ajouter_inventaire(nom_objet, icone) {
@@ -131,15 +150,22 @@ Vue.createApp({
 
     ajouter_objet_inventaire(pop) {
       pop.marqueur.on('click', () => {
-          this.map.removeLayer(pop.marqueur);
-          pop.visible = false;
-          this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
-          console.log(this.inventory);
-
-      })
+        if (pop.objet.type == 'obj_bloque_par_code') {
+          this.verif_reponse(pop)
+        } else {
+          if (pop.objet.type == 'obj_bloque_par_objet') {
+            this.debloquer_objet(pop)
+          } else {
+            this.map.removeLayer(pop.marqueur);
+            pop.visible = false;
+            this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
+            console.log(this.inventory);
+          }
+        };
+      });
     },
 
-    verif_reponse(pop_up,reponse,objet) {
+    verif_reponse(pop_up,reponse) {
       var answer = reponse.value;
       if (answer === objet.code) {
         pop_up.bindPopup(messageFin).openPopup(); 

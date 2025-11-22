@@ -30,7 +30,7 @@
       </div>
       <div id="heatmap-control" style="position: fixed; top: 80px; right: 20px; background: white; padding: 10px; border-radius: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 1000;">
         <label>
-            <input type="checkbox" id="heatmap-checkbox" onchange="toggleHeatmap()">
+            <input type="checkbox" id="heatmap-checkbox" @click="toggleHeatmap">
             Mode triche (Carte de chaleur)
         </label>
       </div>
