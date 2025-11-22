@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public.objets (
     depart BOOLEAN DEFAULT FALSE,
     typeObjet VARCHAR(50) NOT NULL CHECK (typeObjet IN ('obj_recuperable', 'obj_code', 'obj_bloque_par_code', 'obj_bloque_par_objet', 'final')),
     code VARCHAR(10),
-    messageDebut VARCHAR(250),
+    messageDebut VARCHAR(300),
     messageFin VARCHAR(250),
     url_image VARCHAR(255)
 
