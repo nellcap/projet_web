@@ -150,14 +150,22 @@ Vue.createApp({
 
     ajouter_objet_inventaire(pop) {
       pop.marqueur.on('click', () => {
-        if (pop.objet.type == 'obj_bloque_par_code') {
+        if (pop.objet.typeobjet == 'obj_bloque_par_code') {
           this.verif_reponse(pop)
         } else {
-          if (pop.objet.type == 'obj_bloque_par_objet') {
+          if (pop.objet.typeobjet == 'obj_bloque_par_objet') {
             this.debloquer_objet(pop)
           } else {
             this.map.removeLayer(pop.marqueur);
             pop.visible = false;
+            console.log('debut')
+            console.log(this.objets);
+            console.log(this.pop_up);
+            this.objets = this.objets.filter(objet => objet.nom !== pop.objet.nom);
+            this.pop_up= this.pop_up.filter(pop_up => pop_up.objet.nom !== pop.objet.nom);
+            console.log('fin');
+            console.log(this.objets);
+            console.log(this.pop_up);
             this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
             console.log(this.inventory);
           }
@@ -177,14 +185,15 @@ Vue.createApp({
     },
 
     debloquer_objet(pop) {
-      this.inventory.forEach(function(item) {
-        var ajout_inv = false
+      var ajout_inv = false
+      this.inventory.forEach((item) => {
         if (pop.objet.code === item.nom) {
-          pop.marqueur.bindPopup(messagefin).openPopup();
-          retirer_inventaire(iten.nom,item.Image)
+          pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
+          this.retirer_inventaire(item.nom,item.Image)
           this.map.removeLayer(pop.marqueur);
           pop.visible = false;
           this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
+          console.log(this.inventory)
           ajout_inv = true
         }
       });
