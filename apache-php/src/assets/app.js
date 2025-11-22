@@ -129,7 +129,7 @@ Vue.createApp({
           var inTarget = Math.abs(centre.lat - lat) <= tolerance &&
                       Math.abs(centre.lng - lgn) <= tolerance;
 
-          if (zoom >= parseFloat(pop.objet.minzoomvisible) && inTarget) {
+          if (zoom >= 5 && inTarget) { // parseFloat(pop.objet.minzoomvisible)
               if (pop.visible == false) {
                 pop.marqueur.addTo(this.map);
                 pop.marqueur.bindPopup(pop.objet.messagedebut).openPopup();
@@ -176,13 +176,16 @@ Vue.createApp({
       }
     },
 
-    debloquer_objet(objet_a_debloquer,objet_debloquant) {
-      inventory.forEach(function(item) {
-        if (objet === item.nom) {
-          objet_a_debloquer.bindPopup(message).openPopup();
-          retirer_inventaire(objet_debloquant.nom,objet_debloquant.Image)
-                  var recupererable = true
-        return recupererable
+    debloquer_objet(pop) {
+      this.inventory.forEach(function(item) {
+        var ajout_inv = false
+        if (pop.objet.code === item.nom) {
+          pop.marqueur.bindPopup(messagefin).openPopup();
+          retirer_inventaire(iten.nom,item.Image)
+          this.map.removeLayer(pop.marqueur);
+          pop.visible = false;
+          this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
+          ajout_inv = true
         }
       });
       if (ajout_inv === false) {
