@@ -43,7 +43,6 @@ Vue.createApp({
       .then(r => r.json())
       .then(objets => {
       this.objets = objets;
-      console.log(this.objets)
       this.initialisation_carte();
       });
 
@@ -102,8 +101,8 @@ Vue.createApp({
       }
     },
 
-    retirer_inventaire(nom_objet, icone) {    
-      this.inventory = this.inventory.filter(item => !(item.nom === nom_objet && item.image === icone));
+    retirer_inventaire(nom_objet) {    
+      this.inventory = this.inventory.filter(item => item.nom !== nom_objet );
     },
 
     // Gestion pop-up
@@ -196,9 +195,15 @@ Vue.createApp({
       var reponse = prompt("Entrez le code:")
       if (reponse == pop.objet.code) {
         pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-        // this.retirer_inventaire(item.nom,item.image)
-        pop.objet.typeobjet ='objet_recuperable'
-        this.ajouter_objet_inventaire(pop)
+        let id_code = Number(pop.objet.id) + 1
+        var lien = "api/objets?id=" + id_code.toString()
+        fetch(lien)
+          .then(r => r.json())
+          .then(nouvelobjet => {
+            this.retirer_inventaire(nouvelobjet[0].nom)
+            pop.objet.typeobjet ='objet_recuperable'
+            this.ajouter_objet_inventaire(pop)
+          });  
       } else {
         reponse = prompt('Ratez! Essayez encore:');
       }
@@ -209,7 +214,7 @@ Vue.createApp({
       this.inventory.forEach((item) => {
         if (pop.objet.code === item.nom) {
           pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-          this.retirer_inventaire(item.nom,item.image)
+          this.retirer_inventaire(item.nom)
           ajout_inv = true
           pop.objet.typeobjet = 'objet_recuperable'
           this.ajouter_objet_inventaire(pop)
