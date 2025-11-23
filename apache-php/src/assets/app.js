@@ -26,7 +26,8 @@ Vue.createApp({
       }),
       heatmapVisibl: false,
       pseudo: null,
-      score: 0
+      score: 0,
+      objets_ramasses: []
     };
   },
 
@@ -43,6 +44,7 @@ Vue.createApp({
       .then(r => r.json())
       .then(objets => {
       this.objets = objets;
+      console.log(this.objets)
       this.creation_pop_up();
       });
 
@@ -106,7 +108,7 @@ Vue.createApp({
     creation_pop_up () {
       for (let obj of this.objets) {
         var existe = this.pop_up.some(item => item.objet.nom === obj.nom);
-        if (existe==false) {
+        if (!existe && !this.objets_ramasses.includes(obj.id)) {
           var Image = L.icon({
             iconUrl: obj.url_image,
             iconSize: [48, 48],  
@@ -151,7 +153,7 @@ Vue.createApp({
     ajouter_objet_inventaire(pop) {
       pop.marqueur.off('click');
       pop.marqueur.on('click', () => {
-        if (pop.objet.typeobjet == 'obj_fin') {
+        if (pop.objet.typeobjet == 'final') {
           this.fin()
         }
         if (pop.objet.typeobjet == 'obj_bloque_par_code') {
@@ -161,11 +163,16 @@ Vue.createApp({
             this.debloquer_objet(pop)
           } else {
             pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
+            this.objets_ramasses.push(pop.objet.id);
             setTimeout(() => {
               this.map.removeLayer(pop.marqueur);
               pop.visible = false;
+              console.log('DEBUT')
+              console.log(this.objets, this.pop_up)
               this.objets = this.objets.filter(objet => objet.nom !== pop.objet.nom);
               this.pop_up= this.pop_up.filter(pop_up => pop_up.objet.nom !== pop.objet.nom);
+              console.log('FIN')
+              console.log(this.objets, this.pop_up)
               this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
               this.etape = this.etape + 1
               if (this.etape <= 8) {

@@ -27,7 +27,7 @@ VALUES
 ('matignon', ST_GeomFromText('POINT(2.3207 48.8547)',4326), 9, FALSE, 'obj_code', 1312, 'Et voilà le code pour récupérer les framboises', 'Va retrouver mère-grand.', '/data/code_framboise.jpg'),
 ('sucreglace', ST_GeomFromText('POINT(2.5838 48.8459)',4326), 9, FALSE, 'obj_recuperable', NULL, 'Les filles de la Khôloscopie te donnent du sucre glace !', 'Rends-toi maintenant à la mairie du fief de Louise Gouget.', '/data/sucre.jpg'),
 ('amande', ST_GeomFromText('POINT(0.6162 44.2030)',4326), 9, FALSE, 'obj_recuperable', NULL, 'Louise te donne de la poudre d''amande qu''elle a failli confondre avec de l''arsenic...', 'Tu as tous les ingrédients, rends-toi à l''Elysée pour finir le jeu !', '/data/amande.jpg'),
-('macaron', ST_GeomFromText('POINT(2.3170 48.87088)',4326), 9, FALSE, 'obj_fin', NULL, 'Bravo ! Tu as réussi à rassembler tous les ingrédients pour faire les macarons à la framboise !', 'Macron est ravi !', '/data/macaron.jpg');
+('macaron', ST_GeomFromText('POINT(2.3170 48.87088)',4326), 9, FALSE, 'final', NULL, 'Bravo ! Tu as réussi à rassembler tous les ingrédients pour faire les macarons à la framboise !', 'Macron est ravi !', '/data/macaron.jpg');
 
 
 
