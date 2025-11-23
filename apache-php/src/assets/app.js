@@ -24,7 +24,7 @@ Vue.createApp({
         crs: L.CRS.EPSG4326,
         tiled: true
       }),
-      heatmapVisibl: false,
+      heatmapVisible: false,
       pseudo: null,
       score: 0,
       objets_ramasses: []
@@ -45,7 +45,7 @@ Vue.createApp({
       .then(objets => {
       this.objets = objets;
       console.log(this.objets)
-      this.creation_pop_up();
+      this.initialisation_carte();
       });
 
   },
@@ -96,7 +96,11 @@ Vue.createApp({
     // Gestion inventaire
 
     ajouter_inventaire(nom_objet, icone) {
-      this.inventory.push({ nom: nom_objet, image: icone});
+      var existe = this.inventory.some(item => item.nom === nom_objet);
+      if (!existe) {
+        this.inventory.push({ nom: nom_objet, image: icone });
+        this.etape = this.etape + 1
+      }
     },
 
     retirer_inventaire(nom_objet, icone) {    
@@ -104,8 +108,7 @@ Vue.createApp({
     },
 
     // Gestion pop-up
-
-    creation_pop_up () {
+    initialisation_carte () {
       for (let obj of this.objets) {
         var existe = this.pop_up.some(item => item.objet.nom === obj.nom);
         if (!existe && !this.objets_ramasses.includes(obj.id)) {
@@ -119,6 +122,15 @@ Vue.createApp({
       }
       this.apparition_pop_up();
 
+    },
+
+    creation_pop_up (objet) {
+      var Image = L.icon({
+        iconUrl: objet.url_image,
+        iconSize: [48, 48],  
+      });
+      var pop_up = L.marker([parseFloat(objet.lat),parseFloat(objet.long)], { icon: Image});
+      this.pop_up.push({ marqueur:pop_up, objet: objet,visible: false});
     },
 
     apparition_pop_up() {
@@ -163,7 +175,6 @@ Vue.createApp({
             this.debloquer_objet(pop)
           } else {
             pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-            this.objets_ramasses.push(pop.objet.id);
             setTimeout(() => {
               this.map.removeLayer(pop.marqueur);
               pop.visible = false;
@@ -174,14 +185,15 @@ Vue.createApp({
               console.log('FIN')
               console.log(this.objets, this.pop_up)
               this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
-              this.etape = this.etape + 1
+              console.log('etape')
+              console.log(this.etape)
               if (this.etape <= 8) {
                 var lien = "api/objets?id=" + this.etape.toString()
                 fetch(lien)
                   .then(r => r.json())
                   .then(nouvelobjet => {
                   this.objets.push(...nouvelobjet);
-                  this.creation_pop_up()
+                  this.creation_pop_up(...nouvelobjet)
                   });
               }
             }, 2000);
