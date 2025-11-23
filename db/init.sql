@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS public.objets (
     depart BOOLEAN DEFAULT FALSE,
     typeObjet VARCHAR(50) NOT NULL CHECK (typeObjet IN ('obj_recuperable', 'obj_code', 'obj_bloque_par_code', 'obj_bloque_par_objet', 'final')),
     code VARCHAR(10),
-    messageDebut VARCHAR(300),
+    messageDebut VARCHAR(250),
     messageFin VARCHAR(250),
     url_image VARCHAR(255)
 
@@ -23,7 +23,7 @@ VALUES
 ('lait', ST_GeomFromText('POINT(2.1585 48.7543)', 4326), 9, TRUE, 'obj_recuperable', NULL, 'Bienvenue dans la Silicon Valley française ! Initiée par Nicolas Sarkozy en 2010, elle a détruit l''agriculture du plateau de Saclay, ayant pourtant une des terres les plus fertiles de France.','Maintenant, va faire du beurre avec ce lait.','/data/lait.jpg'),
 ('beurre', ST_GeomFromText('POINT(-0.6951 48.2211)',4326), 9, TRUE, 'obj_bloque_par_objet', 'lait', 'Je crois bien que tu vas avoir besoin de lait pour faire du beurre... Va le chercher dans la Silicon Valley française.', 'En voilà du bon beurre préparé avec le lait que tu as apporté ! Maintenant, va chercher des oeufs chez Garance.', '/data/beurre.png'),
 ('oeufs', ST_GeomFromText('POINT(2.6459 49.2499)',4326), 9, FALSE, 'obj_recuperable', NULL, 'Bravo ! Tu es bien arrivé.e chez Garance. Elle te donne des oeufs de ses poules Bella et Ciao.', 'Direction la maison de mère-grand pour récupérer des framboises.', '/data/oeufs.png'),
-('framboises', ST_GeomFromText('POINT(0.7506 45.1038)',4326), 9, FALSE, 'obj_bloque_par_code', 1312, "<div> <p>Mère-grand ne donne pas ses framboises à n''importe qui... Le code pour débloquer les framboises se trouve dans la demeure du premier ministre.</p><input type='text' id='reponse' placeholder='Votre texte...'><button @click='verif_reponse(reponse)'>Valider</button></div>", 'Des framboises en veux-tu en voilà ! Va chercher du sucre à la Khôlocscopie ! ', '/data/framboises.jpeg'),
+('framboises', ST_GeomFromText('POINT(0.7506 45.1038)',4326), 9, FALSE, 'obj_bloque_par_code', 1312, 'Mère-grand ne donne pas ses framboises à n''importe qui... Le code pour débloquer les framboises se trouve dans la demeure du premier ministre.', 'Des framboises en veux-tu en voilà ! Va chercher du sucre à la Khôlocscopie ! ', '/data/framboises.jpeg'),
 ('matignon', ST_GeomFromText('POINT(2.3207 48.8547)',4326), 9, FALSE, 'obj_code', 1312, 'Et voilà le code pour récupérer les framboises', 'Va retrouver mère-grand.', '/data/code_framboises.png'),
 ('sucreglace', ST_GeomFromText('POINT(2.5838 48.8459)',4326), 9, FALSE, 'obj_recuperable', NULL, 'Les filles de la Khôloscopie te donnent du sucre glace !', 'Rends-toi maintenant à la mairie du fief de Louise Gouget.', '/data/sucre_glace.png'),
 ('amande', ST_GeomFromText('POINT(0.6162 44.2030)',4326), 9, FALSE, 'obj_recuperable', NULL, 'Louise te donne de la poudre d''amande qu''elle a failli confondre avec de l''arsenic...', 'Tu as tous les ingrédients, rends-toi à l''Elysée pour finir le jeu !', '/data/amande.png'),

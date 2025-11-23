@@ -130,8 +130,7 @@ Vue.createApp({
           var centre = this.map.getCenter();
           var lat =parseFloat(pop.objet.lat);
           var lgn = parseFloat(pop.objet.long);
-          var tolerance = 0.05;
-          
+          var tolerance = 0.05;          
 
           var inTarget = Math.abs(centre.lat - lat) <= tolerance &&
                       Math.abs(centre.lng - lgn) <= tolerance;
@@ -159,6 +158,7 @@ Vue.createApp({
       pop.marqueur.off('click');
       pop.marqueur.on('click', () => {
         if (pop.objet.typeobjet == 'obj_bloque_par_code') {
+          console.log('entrée par la fonction')
           this.verif_reponse(pop)
         } else {
           if (pop.objet.typeobjet == 'obj_bloque_par_objet') {
@@ -183,14 +183,15 @@ Vue.createApp({
       });
     },
 
-    verif_reponse(pop_up,reponse) {
-      var answer = reponse.value;
-      if (answer === objet.code) {
-        pop_up.bindPopup(messageFin).openPopup(); 
-        objet.recupererable = true
-        return objet.recupererable
+    verif_reponse(pop) {
+      var reponse = prompt("Entrez le code:")
+      if (reponse == pop.objet.code) {
+        console.log("J'y suis")
+        pop.marqueur.bindPopup(pop.objet.messagefin).openPopup(); 
+        pop.objet.typeobjet ='objet_recuperable'
+        this.ajouter_objet_inventaire(pop)
       } else {
-        alert('Essayez encore...');
+        reponse = prompt('Ratez! Essayez encore:');
       }
     },
 
