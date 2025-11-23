@@ -24,7 +24,9 @@ Vue.createApp({
         crs: L.CRS.EPSG4326,
         tiled: true
       }),
-      heatmapVisibl: false
+      heatmapVisibl: false,
+      pseudo: null,
+      score: 0
     };
   },
 
@@ -40,7 +42,6 @@ Vue.createApp({
     fetch("api/objets")
       .then(r => r.json())
       .then(objets => {
-      console.log(objets);
       this.objets = objets;
       this.creation_pop_up();
       });
@@ -106,9 +107,6 @@ Vue.createApp({
       for (let obj of this.objets) {
         var existe = this.pop_up.some(item => item.objet.nom === obj.nom);
         if (existe==false) {
-          console.log(obj.nom)
-          console.log('test')
-          console.log(obj.lat)
           var Image = L.icon({
             iconUrl: obj.url_image,
             iconSize: [48, 48],  
@@ -117,8 +115,6 @@ Vue.createApp({
           this.pop_up.push({ marqueur:pop_up, objet: obj,visible: false});
         }
       }
-      console.log('pop-up')
-      console.log(this.pop_up);
       this.apparition_pop_up();
 
     },
@@ -135,16 +131,14 @@ Vue.createApp({
           var inTarget = Math.abs(centre.lat - lat) <= tolerance &&
                       Math.abs(centre.lng - lgn) <= tolerance;
 
-          if (zoom >= 5 && inTarget) { // parseFloat(pop.objet.minzoomvisible)
-              if (pop.visible == false) {
-                pop.marqueur.addTo(this.map);
-                pop.marqueur.bindPopup(pop.objet.messagedebut).openPopup();
-                pop.visible = true;
-                this.ajouter_objet_inventaire(pop)
-              }
-          }
-
-          else {
+          if (zoom >= parseFloat(pop.objet.minzoomvisible) && inTarget && !(pop.objet.id == 8 && this.etape!=9)) {
+            if (pop.visible == false) {
+              pop.marqueur.addTo(this.map);
+              pop.marqueur.bindPopup(pop.objet.messagedebut).openPopup();
+              pop.visible = true;
+              this.ajouter_objet_inventaire(pop)
+            }
+          } else {
             if (pop.visible) {
               this.map.removeLayer(pop.marqueur);
               pop.visible = false;
@@ -158,25 +152,32 @@ Vue.createApp({
       pop.marqueur.off('click');
       pop.marqueur.on('click', () => {
         if (pop.objet.typeobjet == 'obj_bloque_par_code') {
-          console.log('entrée par la fonction')
+          this.fin()
+        }
+        if (pop.objet.typeobjet == 'obj_bloque_par_code') {
           this.verif_reponse(pop)
         } else {
           if (pop.objet.typeobjet == 'obj_bloque_par_objet') {
             this.debloquer_objet(pop)
           } else {
-            this.map.removeLayer(pop.marqueur);
-            pop.visible = false;
-            this.objets = this.objets.filter(objet => objet.nom !== pop.objet.nom);
-            this.pop_up= this.pop_up.filter(pop_up => pop_up.objet.nom !== pop.objet.nom);
-            this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
-            this.etape = this.etape + 1
-            lien = "api/objets?id=" + this.etape.toString()
-            fetch(lien)
-              .then(r => r.json())
-              .then(nouvelobjet => {
-              this.objets.push(...nouvelobjet);
-              this.creation_pop_up()
-              });
+            pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
+            setTimeout(() => {
+              this.map.removeLayer(pop.marqueur);
+              pop.visible = false;
+              this.objets = this.objets.filter(objet => objet.nom !== pop.objet.nom);
+              this.pop_up= this.pop_up.filter(pop_up => pop_up.objet.nom !== pop.objet.nom);
+              this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
+              this.etape = this.etape + 1
+              if (this.etape <= 8) {
+                var lien = "api/objets?id=" + this.etape.toString()
+                fetch(lien)
+                  .then(r => r.json())
+                  .then(nouvelobjet => {
+                  this.objets.push(...nouvelobjet);
+                  this.creation_pop_up()
+                  });
+              }
+            }, 3000);
             
           }
         };
@@ -186,8 +187,8 @@ Vue.createApp({
     verif_reponse(pop) {
       var reponse = prompt("Entrez le code:")
       if (reponse == pop.objet.code) {
-        console.log("J'y suis")
-        pop.marqueur.bindPopup(pop.objet.messagefin).openPopup(); 
+        pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
+        // this.retirer_inventaire(item.nom,item.image)
         pop.objet.typeobjet ='objet_recuperable'
         this.ajouter_objet_inventaire(pop)
       } else {
@@ -201,11 +202,7 @@ Vue.createApp({
         if (pop.objet.code === item.nom) {
           pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
           this.retirer_inventaire(item.nom,item.image)
-          console.log('retirer de linventaire')
-          console.log(item.nom, item.Image)
           ajout_inv = true
-          console.log('inventaire après avoir retirer le lait')
-          console.log(this.inventory)
           pop.objet.typeobjet = 'objet_recuperable'
           this.ajouter_objet_inventaire(pop)
         }
@@ -214,5 +211,12 @@ Vue.createApp({
         alert("Vous n'avez pas de lait dans votre inventaire.");
       }
     },
+    
+
+    fin() {
+      this.stopper_chronometre()
+      this.pseudo = prompt('Entrez votre nom:')
+      this.score = chronometre
+    }
   }
 }).mount('#app');
