@@ -222,9 +222,40 @@ Vue.createApp({
     
 
     fin() {
-      this.stopper_chronometre()
-      this.pseudo = prompt('Entrez votre nom:')
-      this.score = chronometre
+      this.stopper_chronometre(); 
+      this.pseudo = prompt('Entrez votre pseudo:');
+
+      let tempsSecondes = this.chronometre.heures * 3600 + this.chronometre.minutes * 60 + this.chronometre.secondes;
+      
+      // on enlève 10 points par secondes, le score max étant de 10000 si le jeu est réalisé en 0 sec (impossible)
+      this.score = Math.max(0, 10000 - (tempsTotal * 10));
+
+      // envoie le pseudo et le score à notre serveur avec la route /api/scores qu'on a créé dans le index.php
+      fetch('http://localhost:1234/api/scores', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          pseudo: this.pseudo,
+          score: this.score
+        })
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.success) {
+          alert(`Score enregistré avec succès ! Votre score : ${this.score}`);
+          window.location.href = '/';
+        } else {
+          alert('Erreur : ' + (data.error || 'inconnue'));
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        alert('Erreur réseau lors de l\'envoi du score.');
+      });
+    }
+
     }
   }
-}).mount('#app');
+).mount('#app');

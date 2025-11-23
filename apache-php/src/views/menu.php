@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Des macarons pour Macron</title>
-    <link rel="stylesheet" href="/assets/style.css">
+    
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
+    <link rel="stylesheet" href="/assets/style.css">
 </head>
 <body>
 <div id='app'>
@@ -44,7 +45,7 @@
             Hall of fame
         </h3> 
         <!-- si la variable chargement est true, on affiche un texte -->
-        <div v-if="chargement" class="loading">
+        <div v-if="chargement" class="chargement">
             Chargement des scores...
         </div>
         <!-- si le chargement est fini, on affiche le top 10 des meilleurs scores avec le
@@ -52,10 +53,10 @@
         <div v-else>
             <!-- si la liste des scores est non vide, on liste les scores -->
             <ul v-if="scores.length > 0" class="liste_scores">
-                <li v-for="(score, index) in scores" :key="index" class="li_scores">
-                    <span class="score-rank">#{{ index + 1 }}</span>
-                    <span class="score-pseudo">{{ score.pseudo }}</span>
-                    <span class="score-value">{{ score.score }} pts</span>
+                <li v-for="(score, index) in scores" :key="index" class='li_scores'>>
+                    <span class="rang_scores">#{{ index + 1 }}</span>
+                    <span class="pseudo_scores">{{ score.pseudo }}</span>
+                    <span class="valeur_scores">{{ score.score }} pts</span>
                 </li>
             </ul>
             <!-- sinon, on affiche un texte -->

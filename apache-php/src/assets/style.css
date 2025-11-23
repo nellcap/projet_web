@@ -39,14 +39,71 @@ h1 {
     padding: 30px;
     background: #f0e6e6;
     border-radius: 20px;
-    box-shadow: 0 8px 20px rgba(255, 182, 193, 0.3);
     border: 10px ridge rgba(255, 182, 193, 0.4);
+    max-height: 450px;   
+    /* barre de scroll  pour le classement */   
+    overflow-y: auto;         
 }
+
 
 .classement h3 {
     text-align: center;
     margin-top: -5px;
     font-size: 1.5em;
+}
+
+.chargement {
+    text-align: center;
+    padding: 20px;
+    font-size: 1em;
+}
+
+.liste_scores {
+    list-style: none;
+    padding-left: 0;
+    margin-left: 0;
+}
+
+
+.li_scores {
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #ffe5ec 0%, #fff0f5 100%);
+    border-radius: 50px;
+    transition: all 0.3s ease;
+    border: 2px solid rgba(255, 182, 193, 0.3);
+}
+
+
+.rang_scores {
+    font-weight: bold;
+    color: #ff6b9d;
+    margin-right: 20px;
+    font-size: 1em;
+    min-width: 40px;
+}
+
+.pseudo_scores {
+    flex: 1;
+    font-weight: 600;
+    color: #8b5a7e;
+    font-size: 1em;
+}
+
+.valeur_scores {
+    font-weight: bold;
+    color: #ff6b9d;
+    font-size: 1em;
+    background: rgba(255, 182, 193, 0.2);
+    padding: 5px 15px;
+    border-radius: 20px;
 }
 
 

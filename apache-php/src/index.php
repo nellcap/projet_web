@@ -77,36 +77,30 @@ Flight::route('GET /api/objets', function () {
 // route pour envoyer les données de l'utilisateur (pseudo et scores) à notre serveur 
 // à la fin de la partie  
 Flight::route('POST /api/scores', function() {
-    $link = Flight::get('connexion_db');
-    
-    // récupère les infos données par l'utilisateur 
-    $donneesFin = Flight::request();
-    
-    // stocke le json du pseudo et du score de l'utilisateur (récupérés via POST)
-    $pseudo = $donneesFin->data->pseudo ?? '';
-    $score = $donneesFin->data->score ?? 0;
-    
-    // si pas de pseudo rentré, on dit de mettre un pseudo
+    $input = file_get_contents('php://input');
+    $donneesFin = json_decode($input);
+
+    $pseudo = $donneesFin->pseudo ?? '';
+    $score = $donneesFin->score ?? 0;
+
     if (empty($pseudo)) {
         Flight::json(['error' => 'Mets un pseudo stp'], 400);
         return;
     }
-    
-    // insère dans la table score les infos de l'utilisateur : pseudo et score
-    // on veut récupérer l'id associé à l'utilisateur ($1 et $2 sont équivalents à $pseudo et $score)
+
+    $link = Flight::get('connexion_db');
     $sql = 'INSERT INTO scores (pseudo, score) VALUES ($1, $2) RETURNING id';
     $requete = pg_query_params($link, $sql, [$pseudo, $score]);
-    
 
     if ($requete) {
-        // si la requête marche bien 
-        // on sort le résultat de la requête sous forme de tableau json
         $resultat = pg_fetch_all($requete, PGSQL_ASSOC);
-        Flight::json(['success' => true, 'id' => $resultat['id']]);
+        Flight::json(['success' => true, 'id' => $resultat[0]['id']]);
     } else {
         Flight::json(['error' => 'Erreur sauvegarde'], 500);
     }
 });
+
+
 
 // route pour récupérer le top 10 des utilisateurs (pseudo et scores)
 Flight::route('GET /api/scores', function() {
