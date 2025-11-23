@@ -1,6 +1,13 @@
 -- Activer PostGIS
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+CREATE TABLE IF NOT EXISTS public.scores (
+    id SERIAL PRIMARY KEY,
+    pseudo VARCHAR(50) NOT NULL,
+    score INT NOT NULL
+);
+
+
 
 CREATE TABLE IF NOT EXISTS public.objets (
     id SERIAL PRIMARY KEY,
@@ -30,9 +37,3 @@ VALUES
 ('macaron', ST_GeomFromText('POINT(2.3170 48.87088)',4326), 9, FALSE, 'obj_recuperable', NULL, 'Bravo ! Tu as réussi à rassembler tous les ingrédients pour faire les macarons à la framboise !', 'Macron est ravi !', '/data/macron.png');
 
 
-
--- objet_bloquant_id INT REFERENCES objets(id), -- Pour type 'bloque_objet'
--- objet_libere_id INT REFERENCES objets(id), -- Objet libéré après déblocage
--- objet_code_id INT REFERENCES objets(id) -- Pour type 'bloque_code', référence l'objet qui contient le code
--- public.obj
--- image, nom, texte, geom, zoom

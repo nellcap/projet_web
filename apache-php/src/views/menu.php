@@ -8,9 +8,9 @@
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
 </head>
 <body>
-
-<h1>Des macarons pour Macron</h1>
-<h2 class='soustitre'>Un escape game créé par Nell Capelle et Clara Bouvier</h2>
+<div id='app'>
+    <h1>Des macarons pour Macron</h1>
+    <h2 class='soustitre'>Un escape game créé par Nell Capelle et Clara Bouvier</h2>
 <div class='grosseboite'>
     <div class='regles'>
         <h3>
@@ -34,7 +34,7 @@
                 Certains objets nécessitent un <b>code</b> ou un <b>autre objet</b> que tu as récupéré antérieurement dans ton inventaire pour être dévérouillés.
             </li>
             <li>
-                Rends-toi dans <b>la ferme </b> pour commencer l'aventure !
+                Rends-toi à <b>la ferme qui a produit le meilleur beurre agricole de 2025</b> pour commencer l'aventure !
             </li>
         </ul>
 
@@ -43,14 +43,36 @@
         <h3>
             Hall of fame
         </h3> 
+        <!-- si la variable chargement est true, on affiche un texte -->
+        <div v-if="chargement" class="loading">
+            Chargement des scores...
+        </div>
+        <!-- si le chargement est fini, on affiche le top 10 des meilleurs scores avec le
+         pseudo associé -->
+        <div v-else>
+            <!-- si la liste des scores est non vide, on liste les scores -->
+            <ul v-if="scores.length > 0" class="liste_scores">
+                <li v-for="(score, index) in scores" :key="index" class="li_scores">
+                    <span class="score-rank">#{{ index + 1 }}</span>
+                    <span class="score-pseudo">{{ score.pseudo }}</span>
+                    <span class="score-value">{{ score.score }} pts</span>
+                </li>
+            </ul>
+            <!-- sinon, on affiche un texte -->
+            <p v-else class="no-scores">Personne n'a encore joué à notre jeu... </p>
+        </div>
     </div>
-    
+
 </div>
 <div class="boitebouton">
-    <a href="/carte" class="commencer"><b>C'est parti !</b></a>
+    <button @click="commencerJeu">C'est parti !</button>
 </div>
 
  
 </div>
+</div>
+
+<script src="/assets/menu.js"></script>
+
 </body>
 </html>
