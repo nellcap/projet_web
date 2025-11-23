@@ -177,7 +177,7 @@ Vue.createApp({
                   this.creation_pop_up()
                   });
               }
-            }, 3000);
+            }, 2000);
             
           }
         };
