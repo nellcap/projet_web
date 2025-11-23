@@ -47,11 +47,11 @@
         <div v-if="chargement" class="loading">
             Chargement des scores...
         </div>
-        <!-- si le chargement est fini, on affiche  -->
+        <!-- si le chargement est fini, on affiche le top 10 des meilleurs scores avec le
+         pseudo associé -->
         <div v-else>
             <!-- si la liste des scores est non vide, on liste les scores -->
             <ul v-if="scores.length > 0" class="scores-list">
-
                 <li v-for="(score, index) in scores" :key="index" class="score-item">
                     <span class="score-rank">#{{ index + 1 }}</span>
                     <span class="score-pseudo">{{ score.pseudo }}</span>
@@ -65,12 +65,14 @@
 
 </div>
 <div class="boitebouton">
-    <button @click="startGame">C'est parti !</button>
+    <button @click="commencerJeu">C'est parti !</button>
 </div>
 
  
 </div>
 </div>
+
 <script src="/assets/menu.js"></script>
+
 </body>
 </html>

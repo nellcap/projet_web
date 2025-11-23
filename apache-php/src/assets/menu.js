@@ -27,7 +27,7 @@ Vue.createApp({
                 });
         },
         
-        startGame() {
+        commencerJeu() {
             window.location.href = '/carte';
         }
     }
