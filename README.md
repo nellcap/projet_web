@@ -1,3 +1,24 @@
+# Des macarons pour Macron
+Ce jeu est un escape game géographique. Après avoir lu les consignes (dont le
+premier indice), appuyez sur le bouton "C'est parti !". Rendez-vous au premier endroit 
+décrit par l'indice sur la page d'accueil (vous pouvez activer la heat map avec la check
+box en haut à droite de la carte). Pour passer le texte ou pour récupérer l'objet,
+il faut appuyer sur celui-ci. 
+
+
+# Solutions (long, lat)
+1. Beurre de la ferme qui a produit le meilleur beurre agricole de 2025 : (-0.6951, 48.2211)
+2. Lait de la Sillicon Valley française pour récupérer le beurre : (2.1585 48.7543)
+3. Oeufs de chez Garance : (2.6459, 49.2499)
+4. Framboises de chez mère-grand : (0.7506, 45.1038)
+5. Code pour récupérer les framboises à Matignon : (2.3207, 48.8547)
+6. Sucre glace de la Kholocscopie : (2.5838, 48.8459)
+7. Amandes de chez Louise Gouget : (0.6162, 44.2030)
+
+
+
+
+
 # Docker Starter Kit
 
 Construit un environnement Docker avec Apache+PHP+Flight, Postgres/PostGIS, pgAdmin, GeoServer.
