@@ -1160,3 +1160,13 @@ DEBUG 2025-11-23 18:04:25,522 [main][Log4J2Logger.java:215] : CONFIGURING GEOSER
 23 Nov 18:04:39 CONFIG [diskquota.DiskQuotaMonitor] - Disk quota periodic enforcement task set up every 5 SECONDS
 23 Nov 18:04:40 CONFIG [geoserver.security] - Start reloading user/groups for service named default
 23 Nov 18:04:40 CONFIG [geoserver.security] - Reloading user/groups successful for service named default
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
+23 Nov 18:33:48 WARN   [servlet.PageNotFound] - No mapping for GET /geoserver/projet_nell_clara/wms
