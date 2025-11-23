@@ -34,7 +34,7 @@
                 Certains objets nécessitent un <b>code</b> ou un <b>autre objet</b> que tu as récupéré antérieurement dans ton inventaire pour être dévérouillés.
             </li>
             <li>
-                Rends-toi dans <b>la ferme </b> pour commencer l'aventure !
+                Rends-toi à <b>la ferme qui a produit le meilleur beurre agricole de 2025</b> pour commencer l'aventure !
             </li>
         </ul>
 
@@ -43,19 +43,23 @@
         <h3>
             Hall of fame
         </h3> 
-        <div v-if="loading" class="loading">
+        <!-- si la variable chargement est true, on affiche un texte -->
+        <div v-if="chargement" class="loading">
             Chargement des scores...
         </div>
-            
+        <!-- si le chargement est fini, on affiche  -->
         <div v-else>
+            <!-- si la liste des scores est non vide, on liste les scores -->
             <ul v-if="scores.length > 0" class="scores-list">
+
                 <li v-for="(score, index) in scores" :key="index" class="score-item">
                     <span class="score-rank">#{{ index + 1 }}</span>
                     <span class="score-pseudo">{{ score.pseudo }}</span>
                     <span class="score-value">{{ score.score }} pts</span>
                 </li>
             </ul>
-            <p v-else class="no-scores">Aucun score pour le moment. Sois le premier !</p>
+            <!-- sinon, on affiche un texte -->
+            <p v-else class="no-scores">Personne n'a encore joué à notre jeu... </p>
         </div>
     </div>
 
@@ -67,6 +71,6 @@
  
 </div>
 </div>
-
+<script src="/assets/menu.js"></script>
 </body>
 </html>
