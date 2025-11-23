@@ -51,8 +51,8 @@
          pseudo associé -->
         <div v-else>
             <!-- si la liste des scores est non vide, on liste les scores -->
-            <ul v-if="scores.length > 0" class="scores-list">
-                <li v-for="(score, index) in scores" :key="index" class="score-item">
+            <ul v-if="scores.length > 0" class="liste_scores">
+                <li v-for="(score, index) in scores" :key="index" class="li_scores">
                     <span class="score-rank">#{{ index + 1 }}</span>
                     <span class="score-pseudo">{{ score.pseudo }}</span>
                     <span class="score-value">{{ score.score }} pts</span>
