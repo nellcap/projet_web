@@ -1,0 +1,16 @@
+<layer>
+  <name>heatmap</name>
+  <id>LayerInfoImpl--6eb54f35:19ab2a68ee0:-7fee</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--6eb54f35:19ab2a68ee0:-7ff2</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--6eb54f35:19ab2a68ee0:-7fef</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2025-11-23 21:41:22.947 UTC</dateCreated>
+</layer>
