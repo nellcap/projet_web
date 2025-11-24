@@ -1,7 +1,7 @@
 Vue.createApp({
   data() {
     return {
-      inventory: [],
+      inventaire: [],
       chronometre: {
         secondes: 0,
         minutes: 0,
@@ -11,8 +11,7 @@ Vue.createApp({
       },
       chronometreAffichage: '00:00:00',
       etape: 2,
-      recupererable: false,
-      map: null,
+      carte: null,
       objets: [],
       pop_up:[],
       heatmapLayer: L.tileLayer.wms('http://localhost:8080/geoserver/projet_nell_clara/wms', {
@@ -31,11 +30,11 @@ Vue.createApp({
   },
 
   mounted() {
-    this.map = L.map('map').setView([48.8708852, 2.3170585], 15);
+    this.carte = L.map('map').setView([48.8708852, 2.3170585], 15);
 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(this.map);
+    }).addTo(this.carte);
 
     this.demarrer_chronometre();
 
@@ -79,30 +78,28 @@ Vue.createApp({
       this.chronometreAffichage = h + ':' + m + ':' + s;
     },
 
-    stopper_chronometre() {},
-
     // Gestion carte de chaleur
     toggleHeatmap() {
         if (this.heatmapVisible) {
-            this.map.removeLayer(this.heatmapLayer);
+            this.carte.removeLayer(this.heatmapLayer);
             this.heatmapVisible = false;
         } else {
-            this.heatmapLayer.addTo(this.map);
+            this.heatmapLayer.addTo(this.carte);
             this.heatmapVisible = true;
         }
     },
     // Gestion inventaire
 
     ajouter_inventaire(nom_objet, icone) {
-      var existe = this.inventory.some(item => item.nom === nom_objet);
+      var existe = this.inventaire.some(item => item.nom === nom_objet);
       if (!existe) {
-        this.inventory.push({ nom: nom_objet, image: icone });
+        this.inventaire.push({ nom: nom_objet, image: icone });
         this.etape = this.etape + 1
       }
     },
 
     retirer_inventaire(nom_objet) {    
-      this.inventory = this.inventory.filter(item => item.nom !== nom_objet );
+      this.inventaire = this.inventaire.filter(item => item.nom !== nom_objet );
     },
 
     // Gestion pop-up
@@ -128,13 +125,13 @@ Vue.createApp({
     },
 
     apparition_pop_up() {
-      this.map.on('zoomend moveend', () => {      
+      this.carte.on('zoomend moveend', () => {      
         for (let pop of this.pop_up) {
           if (pop.ramasse) {
             continue;
           }
-          var zoom = this.map.getZoom();
-          var centre = this.map.getCenter();
+          var zoom = this.carte.getZoom();
+          var centre = this.carte.getCenter();
           var lat =parseFloat(pop.objet.lat);
           var lgn = parseFloat(pop.objet.long);
           var tolerance = 0.05;          
@@ -144,14 +141,14 @@ Vue.createApp({
 
           if (zoom >= parseFloat(pop.objet.minzoomvisible) && inTarget && !(pop.objet.id == 8 && this.etape!=9)) {
             if (pop.visible == false) {
-              pop.marqueur.addTo(this.map);
+              pop.marqueur.addTo(this.carte);
               pop.marqueur.bindPopup(pop.objet.messagedebut).openPopup();
               pop.visible = true;
               this.ajouter_objet_inventaire(pop)
             }
           } else {
             if (pop.visible) {
-              this.map.removeLayer(pop.marqueur);
+              this.carte.removeLayer(pop.marqueur);
               pop.visible = false;
             }
           }
@@ -173,7 +170,7 @@ Vue.createApp({
           pop.ramasse = true;
           pop.visible = false;
           setTimeout(() => {
-            this.map.removeLayer(pop.marqueur);
+            this.carte.removeLayer(pop.marqueur);
             this.objets = this.objets.filter(objet => objet.nom !== pop.objet.nom);
             this.pop_up= this.pop_up.filter(pop_up => pop_up.objet.nom !== pop.objet.nom);
             this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
@@ -193,9 +190,7 @@ Vue.createApp({
 
     verif_reponse(pop) {
       var reponse = prompt("Entrez le code:")
-      console.log(pop.objet.id_debloquable)
       let lien = "api/objets?id=" + pop.objet.id_debloquable
-      console.log('lien', lien)
       fetch(lien)
         .then(r => r.json())
         .then(nouvelobjet => {
@@ -212,12 +207,10 @@ Vue.createApp({
 
     debloquer_objet(pop) {
       let lien = "api/objets?id=" + pop.objet.id_debloquable
-      console.log('lien', lien)
       fetch(lien)
         .then(r => r.json())
         .then(nouvelobjet => {
-            if (this.inventory.some(item => item.nom === nouvelobjet[0].nom)) {
-              console.log(nouvelobjet[0].nom)
+            if (this.inventaire.some(item => item.nom === nouvelobjet[0].nom)) {
               pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
               this.retirer_inventaire(nouvelobjet[0].nom)
               pop.objet.typeobjet = 'objet_recuperable'
@@ -228,13 +221,12 @@ Vue.createApp({
     },
     
     fin() {
-      this.stopper_chronometre(); 
       this.pseudo = prompt('Entrez votre pseudo:');
 
       let tempsSecondes = this.chronometre.heures * 3600 + this.chronometre.minutes * 60 + this.chronometre.secondes;
       
       // on enlève 10 points par secondes, le score max étant de 10000 si le jeu est réalisé en 0 sec (impossible)
-      this.score = Math.max(0, 10000 - (tempsTotal * 10));
+      this.score = Math.max(0, 10000 - (tempsSecondes * 10));
 
       // envoie le pseudo et le score à notre serveur avec la route /api/scores qu'on a créé dans le index.php
       fetch('http://localhost:1234/api/scores', {
