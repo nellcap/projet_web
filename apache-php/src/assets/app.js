@@ -99,8 +99,8 @@ Vue.createApp({
       this.inventory.push({ nom: nom_objet, image: icone});
     },
 
-    retirer_inventaire(nom_objet, icone) {    
-      this.inventory = this.inventory.filter(item => !(item.nom === nom_objet && item.image === icone));
+    retirer_inventaire(nom_objet) {    
+      this.inventory = this.inventory.filter(item => item.nom !== nom_objet );
     },
 
     // Gestion pop-up
@@ -205,18 +205,20 @@ Vue.createApp({
 
     debloquer_objet(pop) {
       var ajout_inv = false
-      this.inventory.forEach((item) => {
-        if (pop.objet.code === item.nom) {
-          pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-          this.retirer_inventaire(item.nom,item.image)
-          ajout_inv = true
-          pop.objet.typeobjet = 'objet_recuperable'
-          this.ajouter_objet_inventaire(pop)
-        }
-      });
-      if (ajout_inv === false) {
-        alert("Vous n'avez pas de lait dans votre inventaire.");
-      }
+      let lien = "api/objets?id=" + pop.objet.id_debloquable
+      console.log('lien', lien)
+      fetch(lien)
+        .then(r => r.json())
+        .then(nouvelobjet => {
+            if (this.inventory.some(item => item.nom === nouvelobjet[0].nom)) {
+              console.log(nouvelobjet[0].nom)
+              pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
+              this.retirer_inventaire(nouvelobjet[0].nom)
+              pop.objet.typeobjet = 'objet_recuperable'
+            } else {
+              alert("Vous n'avez pas de lait dans votre inventaire.")
+            };
+        })
     },
     
 
