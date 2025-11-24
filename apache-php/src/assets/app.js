@@ -238,7 +238,7 @@ Vue.createApp({
       let tempsSecondes = this.chronometre.heures * 3600 + this.chronometre.minutes * 60 + this.chronometre.secondes;
       
       // on enlève 10 points par secondes, le score max étant de 10000 si le jeu est réalisé en 0 sec (impossible)
-      this.score = Math.max(0, 10000 - (tempsTotal * 10));
+      this.score = Math.max(0, 10000 - (tempsSecondes * 10));
 
       // envoie le pseudo et le score à notre serveur avec la route /api/scores qu'on a créé dans le index.php
       fetch('http://localhost:1234/api/scores', {
