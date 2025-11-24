@@ -1,4 +1,5 @@
 # Des macarons pour Macron
+
 Ce jeu est un escape game géographique. Après avoir lu les consignes (dont le
 premier indice), appuyez sur le bouton "C'est parti !". Rendez-vous au premier endroit 
 décrit par l'indice sur la page d'accueil (vous pouvez activer la heat map avec la check
@@ -18,16 +19,29 @@ dans son inventaire.
 8. Retour à l'Élysée : (2.3170, 48.87088)
 
 # Fichiers
-- Dans le dossier 'assets', il y a deux fichiers en JavaScript qui contrôle la vue du menu (menu.js) et la vue de la carte (app.js) qui contient la mécanique de l'escape game. Il y a aussi deux fichiers
+
+## Apache-PHP
+- Dans le dossier 'apache-php/src/assets', il y a deux fichiers en JavaScript qui contrôle la vue du menu (menu.js) et la vue de la carte (app.js) qui contient la mécanique de l'escape game. Il y a aussi deux fichiers
 CSS qui définissent le style du menu (style.css) et de la carte (carte.css).
 
-- Le dossier 'data' contient toutes les images des objets sur la carte ainsi qu'un élément 
+- Le dossier 'apache-php/src/data' contient toutes les images des objets sur la carte ainsi qu'un élément 
 de décoration dans le menu.
 
-- Le dossier 'views' contient deux fichiers PHP qui commandent le menu (menu.php) et la carte de jeu (carte.php). 
+- Le dossier 'apache-php/src/views' contient deux fichiers PHP qui commandent le menu (menu.php) et la carte de jeu (carte.php). 
+
+- apache-php/src/index.php gère toutes les routes du jeu.
+
+## Postgres/PostGIS et pgAdmin
+
+- db/init.sql crée les tables objets et scores et insère les objets de la carte dans la table objets.
+
+## Geoserver
 
 
+## Fichier docker-compose.yml
 
+Nous avons modifié le fichier docker-compose.yml pour pouvoir utiliser Docker sur MacOS et Windows. 
+On a ajouté la ligne 'platform: linux/amd64' pour chaque service utilisé (pgAdmin, Geoserver, Postgres/PostGIS). Cette ligne est ignorée par Docker sur des ordinateurs qui ont Windows.
 
 # Docker Starter Kit
 

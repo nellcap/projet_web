@@ -1,13 +1,14 @@
+// vue qui gère la mécanique du jeu 
 Vue.createApp({
   data() {
     return {
-      inventory: [],
-      chronometre: {
+      inventory: [],        // inventaire des objets récupérables et codes
+      chronometre: {        // temps de jeu
         secondes: 0,
         minutes: 0,
         heures: 0,
         intervalId: null,
-        estEnCours: false
+        estEnCours: false  // chrono pas démarré de base
       },
       chronometreAffichage: '00:00:00',
       etape: 2,
@@ -31,14 +32,19 @@ Vue.createApp({
   },
 
   mounted() {
+    // carte centrée sur l'Élysée
     this.map = L.map('map').setView([48.8708852, 2.3170585], 15);
 
+    // dallage OSM ajouté à la carte 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(this.map);
 
+    // démarrage du chrono dès l'arrivée sur la carte
     this.demarrer_chronometre();
-
+    
+    // récupère les objets qui doivent être présents au début du jeu via la route GET api/objets
+    // et les stocke dans la liste 'objets'
     fetch("api/objets")
       .then(r => r.json())
       .then(objets => {
@@ -49,8 +55,9 @@ Vue.createApp({
   },
 
   methods: {
-    // Gestion chronomètre
+    // gestion chrono
     demarrer_chronometre() {
+      // si le chrono n'est pas démarré, on le démarre
       if (!this.chronometre.estEnCours) {
         this.chronometre.estEnCours = true;
         this.chronometre.intervalId = setInterval(() => {
@@ -67,10 +74,10 @@ Vue.createApp({
           }
             
           this.afficher_chronometre();
-        }, 1000); // Met à jour toutes les secondes
+        }, 1000);
       }
     },
-
+    // formate l'affichage du chrono en heures:minutes:secondes
     afficher_chronometre() {
       var h = this.chronometre.heures < 10 ? '0' + this.chronometre.heures : this.chronometre.heures;
       var m = this.chronometre.minutes < 10 ? '0' + this.chronometre.minutes : this.chronometre.minutes;
@@ -81,7 +88,7 @@ Vue.createApp({
 
     stopper_chronometre() {},
 
-    // Gestion carte de chaleur
+    // gestion carte chaleur
     toggleHeatmap() {
         if (this.heatmapVisible) {
             this.map.removeLayer(this.heatmapLayer);
@@ -91,8 +98,8 @@ Vue.createApp({
             this.heatmapVisible = true;
         }
     },
-    // Gestion inventaire
-
+    
+    // ajoute un objet à l'inventaire
     ajouter_inventaire(nom_objet, icone) {
       var existe = this.inventory.some(item => item.nom === nom_objet);
       if (!existe) {
