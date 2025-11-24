@@ -193,39 +193,40 @@ Vue.createApp({
 
     verif_reponse(pop) {
       var reponse = prompt("Entrez le code:")
-      if (reponse == pop.objet.code) {
-        pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-        let id_code = Number(pop.objet.id) + 1
-        var lien = "api/objets?id=" + id_code.toString()
-        fetch(lien)
-          .then(r => r.json())
-          .then(nouvelobjet => {
+      console.log(pop.objet.id_debloquable)
+      let lien = "api/objets?id=" + pop.objet.id_debloquable
+      console.log('lien', lien)
+      fetch(lien)
+        .then(r => r.json())
+        .then(nouvelobjet => {
+          if (reponse == nouvelobjet[0].code) {
+            pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
             this.retirer_inventaire(nouvelobjet[0].nom)
             pop.objet.typeobjet ='objet_recuperable'
-            this.ajouter_objet_inventaire(pop)
-          });  
-      } else {
-        reponse = prompt('Ratez! Essayez encore:');
-      }
+            this.ajouter_objet_inventaire(pop)  
+          } else {
+            reponse = prompt('Ratez! Essayez encore:');
+          }
+        })
     },
 
     debloquer_objet(pop) {
-      var ajout_inv = false
-      this.inventory.forEach((item) => {
-        if (pop.objet.code === item.nom) {
-          pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-          this.retirer_inventaire(item.nom)
-          ajout_inv = true
-          pop.objet.typeobjet = 'objet_recuperable'
-          this.ajouter_objet_inventaire(pop)
-        }
-      });
-      if (ajout_inv === false) {
-        alert("Vous n'avez pas de lait dans votre inventaire.");
-      }
+      let lien = "api/objets?id=" + pop.objet.id_debloquable
+      console.log('lien', lien)
+      fetch(lien)
+        .then(r => r.json())
+        .then(nouvelobjet => {
+            if (this.inventory.some(item => item.nom === nouvelobjet[0].nom)) {
+              console.log(nouvelobjet[0].nom)
+              pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
+              this.retirer_inventaire(nouvelobjet[0].nom)
+              pop.objet.typeobjet = 'objet_recuperable'
+            } else {
+              alert("Vous n'avez pas de lait dans votre inventaire.")
+            };
+        })
     },
     
-
     fin() {
       this.stopper_chronometre(); 
       this.pseudo = prompt('Entrez votre pseudo:');
