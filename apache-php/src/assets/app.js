@@ -2,7 +2,7 @@
 Vue.createApp({
   data() {
     return {
-      inventory: [],
+      inventaire: [],
       chronometre: {
         secondes: 0,
         minutes: 0,
@@ -31,7 +31,7 @@ Vue.createApp({
   },
 
   mounted() {
-    this.map = L.map('map').setView([48.8708852, 2.3170585], 15);
+    this.carte= L.map('map').setView([48.8708852, 2.3170585], 15);
 
     // dallage OSM ajouté à la carte 
     L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
