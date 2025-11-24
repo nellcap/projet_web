@@ -26,7 +26,7 @@
                 Règles de l'escape game
             </h3>
             <p>
-                Notre cher président Emmanuel Macron a terriblement envie de délicieux macarons. Malheuresement, son chef pâtissier est malade et ne peut pas lui concocter ces délicieuses confiseries.
+                Notre cher président Emmanuel Macron a terriblement envie de délicieux macarons. Malheureusement, son chef pâtissier est malade et ne peut pas lui concocter ces délicieuses confiseries.
             </p>
             <p>
                 Ton rôle est de trouver tous les ingrédients nécessaires à la préparation de macarons à la framboise.

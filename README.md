@@ -8,19 +8,18 @@ il faut appuyer sur celui-ci. Si vous voulez débloquer un objet, il suffit d'av
 dans son inventaire. Pour voir le jeu joué, vous pouvez télécharger sur ce lien une vidéo de notre écran : https://filesender.renater.fr/?s=download&token=772b2945-e83f-4b00-b936-045d80c35802
 
 
-# Solutions (long, lat)
-1. Objet bloqué, libérable avec le lait : beurre de la ferme qui a produit le meilleur beurre agricole de 2025 (-0.6951, 48.2211)
-2. Objet récupérable, libérant le beurre : lait de la Sillicon Valley française pour récupérer le beurre (2.1585 48.7543)
-3. Objet récupérable : oeufs de chez Garance (2.6459, 49.2499)
-4. Objet bloqué par un code : framboises de chez mère-grand (0.7506, 45.1038)
-5. Objet code débloquant les framboises : Matignon - code 1312 (2.3207, 48.8547)
-6. Objet récupérable : sucre glace de la Khôlocscopie (2.5838, 48.8459)
-7. Objet récupérable : amandes chez Louise Gouget (0.6162, 44.2030)
-8. Retour à l'Élysée : (2.3170, 48.87088)
+# AVANT DE COMMENCER 
 
-# Fichiers
+Il faut avoir installé  Docker (voir plus bas Docker starter kit).
+
+- Clonez notre repo sur votre ordinateur.
+- Ouvrez un terminal à la racine du dossier dans lequel vous avez cloné notre repo.
+- Tapez la commande "docker-compose up".
+- Allez sur votre navigateur et tapez dans la barre de recherche 'http://localhost:1234/'.
+- Vous pouvez commencer !
 
 ## Apache-PHP
+
 - Dans le dossier 'apache-php/src/assets', il y a deux fichiers en JavaScript qui contrôle la vue du menu (menu.js) et la vue de la carte (app.js) qui contient la mécanique de l'escape game. Il y a aussi deux fichiers
 CSS qui définissent le style du menu (style.css) et de la carte (carte.css).
 
@@ -37,11 +36,27 @@ de décoration dans le menu.
 
 ## Geoserver
 
+Attention, la heatmap met du temps à se charger lorsqu'elle est activée avec la checkbox en haut à droite de la carte.
+
+Tous les éléments servant à afficher la heatmap sont dans le dossier geoserver-workspace.
+
 
 ## Fichier docker-compose.yml
 
 Nous avons modifié le fichier docker-compose.yml pour pouvoir utiliser Docker sur MacOS et Windows. 
 On a ajouté la ligne 'platform: linux/amd64' pour chaque service utilisé (pgAdmin, Geoserver, Postgres/PostGIS). Cette ligne est ignorée par Docker sur des ordinateurs qui ont Windows.
+
+
+# Solutions (long, lat)
+
+1. Objet bloqué, libérable avec le lait : beurre de la ferme qui a produit le meilleur beurre agricole de 2025 (-0.6951, 48.2211)
+2. Objet récupérable, libérant le beurre : lait de la Sillicon Valley française pour récupérer le beurre (2.1585 48.7543)
+3. Objet récupérable : oeufs de chez Garance (2.6459, 49.2499)
+4. Objet bloqué par un code : framboises de chez mère-grand (0.7506, 45.1038)
+5. Objet code débloquant les framboises : Matignon - code 1312 (2.3207, 48.8547)
+6. Objet récupérable : sucre glace de la Khôlocscopie (2.5838, 48.8459)
+7. Objet récupérable : amandes chez Louise Gouget (0.6162, 44.2030)
+8. Retour à l'Élysée : (2.3170, 48.87088)
 
 # Docker Starter Kit
 
@@ -127,3 +142,4 @@ docker compose exec -t db pg_dump --inserts -U postgres -d mydb > "./db/backup.s
 
 - un dossier `./geoserver-workspaces` est créé pour les données des workspaces GeoServer
 - un fichier `./db/backup.sql` est créé pour un dump de la BDD
+
