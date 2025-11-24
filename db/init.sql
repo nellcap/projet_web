@@ -1,6 +1,7 @@
 -- Activer PostGIS
 CREATE EXTENSION IF NOT EXISTS postgis;
 
+-- Création de la table des scores avec le pseudo et le score associé
 CREATE TABLE IF NOT EXISTS public.scores (
     id SERIAL PRIMARY KEY,
     pseudo VARCHAR(50) NOT NULL,
@@ -8,7 +9,7 @@ CREATE TABLE IF NOT EXISTS public.scores (
 );
 
 
-
+-- Création de la table des objets de la carte
 CREATE TABLE IF NOT EXISTS public.objets (
     id SERIAL PRIMARY KEY,
     nom VARCHAR(100) NOT NULL,
@@ -24,7 +25,7 @@ CREATE TABLE IF NOT EXISTS public.objets (
 );
 
 
-
+-- Insertion d'objets dans la table
 INSERT INTO objets (nom, position, minZoomVisible, depart, typeObjet, code, messageDebut, messageFin, url_image)
 VALUES 
 ('lait', ST_GeomFromText('POINT(2.1585 48.7543)', 4326), 9, TRUE, 'obj_recuperable', NULL, 'Bienvenue dans la Silicon Valley française ! Initiée par Nicolas Sarkozy en 2010, elle a détruit l''agriculture du plateau de Saclay, ayant pourtant une des terres les plus fertiles de France.','Maintenant, va faire du beurre avec ce lait.','/data/lait.jpg'),

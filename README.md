@@ -3,18 +3,28 @@ Ce jeu est un escape game géographique. Après avoir lu les consignes (dont le
 premier indice), appuyez sur le bouton "C'est parti !". Rendez-vous au premier endroit 
 décrit par l'indice sur la page d'accueil (vous pouvez activer la heat map avec la check
 box en haut à droite de la carte). Pour passer le texte ou pour récupérer l'objet,
-il faut appuyer sur celui-ci. 
+il faut appuyer sur celui-ci. Si vous voulez débloquer un objet, il suffit d'avoir l'objet débloquant 
+dans son inventaire. 
 
 
 # Solutions (long, lat)
-1. Beurre de la ferme qui a produit le meilleur beurre agricole de 2025 : (-0.6951, 48.2211)
-2. Lait de la Sillicon Valley française pour récupérer le beurre : (2.1585 48.7543)
-3. Oeufs de chez Garance : (2.6459, 49.2499)
-4. Framboises de chez mère-grand : (0.7506, 45.1038)
-5. Code pour récupérer les framboises à Matignon : (2.3207, 48.8547)
-6. Sucre glace de la Kholocscopie : (2.5838, 48.8459)
-7. Amandes de chez Louise Gouget : (0.6162, 44.2030)
+1. Objet bloqué, libérable avec le lait : beurre de la ferme qui a produit le meilleur beurre agricole de 2025 (-0.6951, 48.2211)
+2. Objet récupérable, libérant le beurre : lait de la Sillicon Valley française pour récupérer le beurre (2.1585 48.7543)
+3. Objet récupérable : oeufs de chez Garance (2.6459, 49.2499)
+4. Objet bloqué par un code : framboises de chez mère-grand (0.7506, 45.1038)
+5. Objet code débloquant les framboises : Matignon - code 1312 (2.3207, 48.8547)
+6. Objet récupérable : sucre glace de la Khôlocscopie (2.5838, 48.8459)
+7. Objet récupérable : amandes chez Louise Gouget (0.6162, 44.2030)
+8. Retour à l'Élysée : (2.3170, 48.87088)
 
+# Fichiers
+- Dans le dossier 'assets', il y a deux fichiers en JavaScript qui contrôle la vue du menu (menu.js) et la vue de la carte (app.js) qui contient la mécanique de l'escape game. Il y a aussi deux fichiers
+CSS qui définissent le style du menu (style.css) et de la carte (carte.css).
+
+- Le dossier 'data' contient toutes les images des objets sur la carte ainsi qu'un élément 
+de décoration dans le menu.
+
+- Le dossier 'views' contient deux fichiers PHP qui commandent le menu (menu.php) et la carte de jeu (carte.php). 
 
 
 

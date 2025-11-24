@@ -1,10 +1,11 @@
+/* style pour le menu */
 body {
     font-family: 'Georgia', 'Times New Roman', serif;
     background: linear-gradient(135deg, #ef925b 0%, #f5879a 50%, #b2e3fa 100%);
     min-height: 100vh;
     padding: 10px;
     position: relative;
-    overflow: auto;
+    overflow: auto; /* barre de scroll pour la page entière */
 }
 
 h1 {
@@ -42,18 +43,15 @@ h1 {
     border-radius: 20px;
     border: 10px ridge rgba(255, 182, 193, 0.4);
     max-height: 450px;   
-    /* barre de scroll  pour le classement */   
-    overflow-y: auto;      
-    
+    overflow-y: auto;  /* barre de scroll  pour le classement */       
     position: relative;
 
 }
 
-.scores-container {
-    max-height: 380px; /* ou un peu moins que la hauteur totale de .classement */
-    overflow-y: auto;  /* barre de scroll verticale */
+.scores-boite {
+    max-height: 380px; 
+    overflow-y: auto;  
 }
-
 
 
 .fleche-coin {
@@ -85,22 +83,16 @@ h1 {
 }
 
 .li_scores {
-    list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 5px;
-    padding-bottom: 5px;
+    padding: 5px 10px;
     margin-bottom: 20px;
     background: linear-gradient(135deg, #ffe5ec 0%, #fff0f5 100%);
     border-radius: 50px;
     transition: all 0.3s ease;
     border: 2px solid rgba(255, 182, 193, 0.3);
 }
-
-
 
 
 .rang_scores {
@@ -126,8 +118,6 @@ h1 {
     padding: 5px 15px;
     border-radius: 20px;
 }
-
-
 
 
 .regles {
@@ -161,7 +151,7 @@ h1 {
     background-image : url("/data/macaron_liste.svg");
     background-repeat: no-repeat;
     background-position: 0 top; 
-    background-size: 20px 20px;    /* taille fixe de l'image de la puce en macaron */
+    background-size: 20px 20px;    
     line-height: 1.5;               
     margin-bottom: 10px;
 }

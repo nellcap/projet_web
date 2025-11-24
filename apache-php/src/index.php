@@ -25,8 +25,8 @@ session_start();
 
 Flight::set('connexion_db', $connexion_db);
 
+// route par défaut, va sur le menu
 Flight::route('/', function() {
-
     Flight::render('menu');
 });
 
@@ -36,6 +36,7 @@ Flight::route('/', function() {
 // fin de l'url
 Flight::route('GET /api/objets', function () {
 
+    // on se connecte à la bdd
     $link = Flight::get('connexion_db');  
 
     // on recupere l'id de l'objet dont on veut voir les infos si y en a un (via le ?id=n dans l'url) 
@@ -120,7 +121,7 @@ Flight::route('GET /api/scores', function() {
 });
 
 
-
+// route de la carte du jeu
 Flight::route('/carte', function() {
     Flight::render('carte');
 });

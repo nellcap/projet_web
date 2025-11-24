@@ -1,14 +1,13 @@
-
-// vue pour le hall of fame dans le menu
+// vue pour le hall of fame dans le menu, contrôle les éléments de la div 'app'
 Vue.createApp({
     data() {
         return {
             scores: [],         // tableau quo contient la liste des scores
-            chargement: true    // indique si les scores chargent ou non
+            chargement: true    // booleen qui indique si les scores chargent ou non
         }
     },
     mounted() {
-        this.chargementScores();
+        this.chargementScores(); // chargement des scores dès l'arrivée sur la page du menu
     },
     methods: {
         chargementScores() {
@@ -18,6 +17,7 @@ Vue.createApp({
                 .then(data => {
                     this.scores = data;
                 })
+                // affichage erreur
                 .catch(error => {
                     console.error('Erreur chargement scores:', error);
                 })
@@ -26,12 +26,17 @@ Vue.createApp({
                     this.chargement = false;
                 });
         },
-        
+        // méthode qui emmène le joueur vers la route /carte pour commencer le jeu
+        // quand on va appuyer sur le bouton 'c'est parti!'
         commencerJeu() {
             window.location.href = '/carte';
         },
-        scrollBas() {  // ← Elle doit être ICI, dans methods
-            const container = document.getElementById('scoresContainer');
+        // méthode qui fait descendre la boîte de classement quand on appuie
+        // sur la flèche en haut à gauche
+        // ça incite le joueur à scroller vers le bas pour voir le top 10 en entier 
+        scrollBas() {  
+            // chercher l'élément html dont l'id est boiteScores
+            const container = document.getElementById('boiteScores');
             if (container) {
                 container.scrollTo({
                     top: container.scrollHeight,
