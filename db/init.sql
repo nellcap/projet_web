@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS public.objets (
 
 
 -- Insertion d'objets dans la table
-INSERT INTO objets (nom, position, minZoomVisible, depart, typeObjet, code, messageDebut, messageFin, url_image)
+INSERT INTO objets (nom, position, minZoomVisible, depart, typeObjet, code, id_debloquable, messageDebut, messageFin, url_image)
 VALUES 
 ('Lait', ST_GeomFromText('POINT(2.1585 48.7543)', 4326), 9, TRUE, 'obj_recuperable', NULL, NULL,'Bienvenue dans la Silicon Valley française ! Initiée par Nicolas Sarkozy en 2010, elle a détruit l''agriculture du plateau de Saclay, ayant pourtant une des terres les plus fertiles de France.','Maintenant, va faire du beurre avec ce lait.','/data/lait.jpg'),
 ('Beurre', ST_GeomFromText('POINT(-0.6951 48.2211)',4326), 9, TRUE, 'obj_bloque_par_objet', NULL, 1, 'Je crois bien que tu vas avoir besoin de lait pour faire du beurre... Va le chercher dans la Silicon Valley française.', 'En voilà du bon beurre préparé avec le lait que tu as apporté ! Maintenant, va chercher des oeufs chez Garance.', '/data/beurre.png'),
