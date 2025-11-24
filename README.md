@@ -5,7 +5,7 @@ premier indice), appuyez sur le bouton "C'est parti !". Rendez-vous au premier e
 décrit par l'indice sur la page d'accueil (vous pouvez activer la heat map avec la check
 box en haut à droite de la carte). Pour passer le texte ou pour récupérer l'objet,
 il faut appuyer sur celui-ci. Si vous voulez débloquer un objet, il suffit d'avoir l'objet débloquant 
-dans son inventaire. 
+dans son inventaire. Pour voir le jeu joué, vous pouvez télécharger sur ce lien une vidéo de notre écran : https://filesender.renater.fr/?s=download&token=772b2945-e83f-4b00-b936-045d80c35802
 
 
 # Solutions (long, lat)
