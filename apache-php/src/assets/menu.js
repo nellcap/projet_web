@@ -29,6 +29,16 @@ Vue.createApp({
         
         commencerJeu() {
             window.location.href = '/carte';
+        },
+        scrollBas() {  // ← Elle doit être ICI, dans methods
+            const container = document.getElementById('scoresContainer');
+            if (container) {
+                container.scrollTo({
+                    top: container.scrollHeight,
+                    behavior: 'smooth'
+                });
+            }
         }
+        
     }
 }).mount('#app');

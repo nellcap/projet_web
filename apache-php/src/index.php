@@ -74,6 +74,7 @@ Flight::route('GET /api/objets', function () {
     Flight::json($objet ?: ['error' => 'aucun objet ne corresond à cet id']);
 });
 
+
 // route pour envoyer les données de l'utilisateur (pseudo et scores) à notre serveur 
 // à la fin de la partie  
 Flight::route('POST /api/scores', function() {
@@ -99,8 +100,6 @@ Flight::route('POST /api/scores', function() {
         Flight::json(['error' => 'Erreur sauvegarde'], 500);
     }
 });
-
-
 
 // route pour récupérer le top 10 des utilisateurs (pseudo et scores)
 Flight::route('GET /api/scores', function() {

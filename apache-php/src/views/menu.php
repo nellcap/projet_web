@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Des macarons pour Macron</title>
-    
     <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.js"></script>
     <link rel="stylesheet" href="/assets/style.css">
 </head>
@@ -20,7 +19,7 @@
         <p>
             Notre cher président Emmanuel Macron a terriblement envie de délicieux macarons. Malheuresement, son chef pâtissier est malade et ne peut pas lui concocter ces délicieuses confiseries.
         </p>
-        <p> Ton rôle est de chercher tous les ingrédients nécessaires à la préparation de macarons à la framboise.</p>
+        <p> Ton rôle est de trouver tous les ingrédients nécessaires à la préparation de macarons à la framboise.</p>
         <ul>
             <li>
                 Ton terrain de jeu sera la <b>France métropolitaine</b>.
@@ -41,32 +40,35 @@
 
     </div>
     <div class='classement'>
+        <div class="fleche-coin" @click="scrollBas">↓</div>
         <h3>
             Hall of fame
-        </h3> 
-        <!-- si la variable chargement est true, on affiche un texte -->
-        <div v-if="chargement" class="chargement">
-            Chargement des scores...
-        </div>
-        <!-- si le chargement est fini, on affiche le top 10 des meilleurs scores avec le
-         pseudo associé -->
-        <div v-else>
-            <!-- si la liste des scores est non vide, on liste les scores -->
-            <ul v-if="scores.length > 0" class="liste_scores">
-                <li v-for="(score, index) in scores" :key="index" class='li_scores'>>
-                    <span class="rang_scores">#{{ index + 1 }}</span>
-                    <span class="pseudo_scores">{{ score.pseudo }}</span>
-                    <span class="valeur_scores">{{ score.score }} pts</span>
-                </li>
-            </ul>
-            <!-- sinon, on affiche un texte -->
-            <p v-else class="no-scores">Personne n'a encore joué à notre jeu... </p>
+        </h3>
+        <div class="scores-container" ref="scoresContainer" id="scoresContainer">
+            <!-- si la variable chargement est true, on affiche un texte -->
+            <div v-if="chargement" class="chargement">
+                Chargement des scores...
+            </div>
+            <!-- si le chargement est fini, on affiche le top 10 des meilleurs scores avec le
+            pseudo associé -->
+            <div v-else>
+                <!-- si la liste des scores est non vide, on liste les scores -->
+                <ul v-if="scores.length > 0" class="liste_scores">
+                    <li v-for="(score, index) in scores" :key="index" class='li_scores'>
+                        <span class="rang_scores">#{{ index + 1 }}</span>
+                        <span class="pseudo_scores">{{ score.pseudo }}</span>
+                        <span class="valeur_scores">{{ score.score }} pts</span>
+                    </li>
+                </ul>
+                <!-- sinon, on affiche un texte -->
+                <p v-else >Personne n'a encore joué à notre jeu... </p>
+            </div>
         </div>
     </div>
 
 </div>
 <div class="boitebouton">
-    <button @click="commencerJeu">C'est parti !</button>
+    <button @click="commencerJeu" class='bouton'><b>C'est parti !</b></button>
 </div>
 
  

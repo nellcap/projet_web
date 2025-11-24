@@ -30,6 +30,7 @@ h1 {
     gap: 20px;              
     margin: 20px auto;
     max-width: 1200px;
+    align-items: stretch; 
 }
 
 .classement {
@@ -42,9 +43,28 @@ h1 {
     border: 10px ridge rgba(255, 182, 193, 0.4);
     max-height: 450px;   
     /* barre de scroll  pour le classement */   
-    overflow-y: auto;         
+    overflow-y: auto;      
+    
+    position: relative;
+
 }
 
+.scores-container {
+    max-height: 380px; /* ou un peu moins que la hauteur totale de .classement */
+    overflow-y: auto;  /* barre de scroll verticale */
+}
+
+
+
+.fleche-coin {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.8em;
+    cursor: pointer;
+    color: #ff6b9d;
+    user-select: none;
+}
 
 .classement h3 {
     text-align: center;
@@ -64,14 +84,13 @@ h1 {
     margin-left: 0;
 }
 
-
 .li_scores {
     list-style: none;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 10px;
+    padding-right: 10px;
     padding-top: 5px;
     padding-bottom: 5px;
     margin-bottom: 20px;
@@ -80,6 +99,8 @@ h1 {
     transition: all 0.3s ease;
     border: 2px solid rgba(255, 182, 193, 0.3);
 }
+
+
 
 
 .rang_scores {
@@ -148,19 +169,12 @@ h1 {
     text-align: center;
     margin-top: 20px;
 }
-.commencer {
-    text-align: center;
-    font-size: 1.5em;
-    font-family: 'Georgia', 'Times New Roman', serif;
-    background: linear-gradient(315deg, #ef925b 0%, #f5879a 50%, #b2e3fa 100%);
+
+.bouton {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 1.3em;
     border-radius: 20px;
-    border: 4px solid rgb(255, 182, 193);
-    padding: 1rem;
-    text-decoration: none;  
-    color: black;           
-    display: inline-block;  
-    cursor: pointer; 
-}
-.commencer:hover {
-    text-decoration: none;
+    background-color: #f0e6e6;
+    padding: 15px;
+    border: 4px solid #f5879a;
 }
