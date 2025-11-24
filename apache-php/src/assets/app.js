@@ -167,15 +167,18 @@ Vue.createApp({
           this.debloquer_objet(pop)
         } else {
           pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
-          pop.ramasse = true;
-          pop.visible = false;
           setTimeout(() => {
+            console.log('ICI')
+            console.log(pop.objet.nom,pop.marqueur.nom)
+            pop.ramasse = true;
+            pop.visible = false;
             this.carte.removeLayer(pop.marqueur);
             this.objets = this.objets.filter(objet => objet.nom !== pop.objet.nom);
             this.pop_up= this.pop_up.filter(pop_up => pop_up.objet.nom !== pop.objet.nom);
             this.ajouter_inventaire(pop.objet.nom, pop.objet.url_image);
             if (this.etape <= 8) {
               var lien = "api/objets?id=" + this.etape.toString()
+              console.log(lien)
               fetch(lien)
                 .then(r => r.json())
                 .then(nouvelobjet => {
@@ -214,6 +217,7 @@ Vue.createApp({
               pop.marqueur.bindPopup(pop.objet.messagefin).openPopup();
               this.retirer_inventaire(nouvelobjet[0].nom)
               pop.objet.typeobjet = 'objet_recuperable'
+              this.ajouter_objet_inventaire(pop)
             } else {
               alert("Vous n'avez pas de lait dans votre inventaire.")
             };

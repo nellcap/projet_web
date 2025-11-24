@@ -13,12 +13,12 @@
     
       <div id="inventaire">
         <h2>Inventaire</h2>
-        <div v-if="inventory.length === 0" class="inventaire-vide">
+        <div v-if="inventaire.length === 0" class="inventaire-vide">
           Votre inventaire est vide
         </div>
 
         <div v-else>
-          <div v-for="objet in inventory" :key="objet.nom" class="objet">
+          <div v-for="objet in inventaire" :key="objet.nom" class="objet">
             <img :src="objet.image" :alt="objet.nom" class="objet-image">
             <span class="objet-nom">{{ objet.nom }}</span>
           </div>
