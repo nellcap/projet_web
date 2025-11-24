@@ -46,7 +46,7 @@ Flight::route('GET /api/objets', function () {
     // début du jeu (dans la requete sql c'est le WHERE depart = TRUE)
     if (!$id) {
 
-        $sql = "SELECT id, nom, ST_X(position) as long, ST_Y(position) as lat, minZoomVisible, depart, typeObjet, code, messageDebut, messageFin, url_image FROM objets WHERE depart = TRUE";
+        $sql = "SELECT id, nom, ST_X(position) as long, ST_Y(position) as lat, minZoomVisible, depart, typeObjet, code, id_debloquable, messageDebut, messageFin, url_image FROM objets WHERE depart = TRUE";
 
         $requete = pg_query($link, $sql);
 
@@ -64,7 +64,7 @@ Flight::route('GET /api/objets', function () {
     }
 
     // si il y a bien un id dans l'url
-    $sql = "SELECT id, nom, ST_X(position) as long, ST_Y(position) as lat, minZoomVisible, depart, typeObjet, code, messageDebut, messageFin, url_image FROM objets WHERE id = $1";
+    $sql = "SELECT id, nom, ST_X(position) as long, ST_Y(position) as lat, minZoomVisible, depart, typeObjet, code, id_debloquable, messageDebut, messageFin, url_image FROM objets WHERE id = $1";
 
     // requête securisée (sinon utilisateur peut mofidier la base de données en y mettant une requête sql)
     $requete = pg_query_params($link, $sql, [$id]);

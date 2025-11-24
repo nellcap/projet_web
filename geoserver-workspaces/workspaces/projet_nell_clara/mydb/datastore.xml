@@ -27,7 +27,7 @@
     <entry key="create database">false</entry>
     <entry key="Method used to simplify geometries">FAST</entry>
     <entry key="port">5432</entry>
-    <entry key="passwd">crypt2:2cczr+yXMsa0qKNwRfmCZ+PQTrzwa5n9iDLOqAQohUw=</entry>
+    <entry key="passwd">crypt2:rY9ZXwQRxHBXFMpSSNyUV0N9p5V13vBOzOMCT72030w=</entry>
     <entry key="min connections">1</entry>
     <entry key="dbtype">postgis</entry>
     <entry key="namespace">http://projet_web_nell_clara</entry>
@@ -39,5 +39,6 @@
   </connectionParameters>
   <__default>false</__default>
   <dateCreated>2025-11-23 21:40:02.905 UTC</dateCreated>
+  <dateModified>2025-11-24 14:05:20.909 UTC</dateModified>
   <disableOnConnFailure>false</disableOnConnFailure>
 </dataStore>
